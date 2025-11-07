@@ -5,24 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Self Park</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
   <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
-      <img src="/assets/logo1.png" alt="Logo Self Park" class="nav-logo" id="homeLogo" />
+<header class="navbar" id="navbar">
+  <div class="nav-container">
+    <!-- Botão com ícone temporário (lado esquerdo) -->
+    <a href="login.html" class="nav-photo-btn" title="Login">
+      <i class="fa-solid fa-user"></i>
+    </a>
 
-      <nav class="nav-links">
-        <button class="nav-btn" id="reservarBtn">Reservar</button>
-        <button class="nav-btn" id="loginBtn">Login</button>
-        <button class="nav-btn" id="cadastroBtn">Cadastre-se</button>
-      </nav>
-    </div>
-  </header>
+    <!-- Logo centralizada -->
+    <img src="assets/selfLOGO.png" alt="Logo Self Park" class="nav-logo" id="homeLogo" />
 
-  <!-- HERO SECTION (texto à esquerda, mapa à direita) -->
+    <!-- Botões à direita -->
+    <nav class="nav-links">
+      <button class="nav-btn" id="reservarBtn">Reservar</button>
+      <button class="nav-btn" id="loginBtn">Login</button>
+      <button class="nav-btn" id="cadastroBtn">Cadastre-se</button>
+    </nav>
+  </div>
+</header>
+
+
+
+
+  <!-- MAPA SECTION (texto à esquerda, mapa à direita) -->
   <section class="mapa">
     <div class="mapa-container">
       <div class="mapa-text">
@@ -70,7 +82,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-content">
-      <img src="assets/logo1.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
+      <img src="assets/selfLOGO.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
       <div class="footer-buttons">
         <button class="nav-btn" id="footerReservar">Reservar</button>
         <button class="nav-btn" id="footerLogin">Login</button>
