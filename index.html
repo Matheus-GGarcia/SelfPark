@@ -3,17 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SelfPark</title>
-  <link rel="shortcut icon" href="assets/inconeeeeeeeee.png">
+  <title>Self Park</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
   <!-- NAVBAR -->
-<header class="navbar" id="navbar">
+  <header class="navbar" id="navbar">
   <div class="nav-container">
     <!-- Botão com ícone temporário (lado esquerdo) -->
     <a href="login.html" class="nav-photo-btn" title="Login">
@@ -31,10 +30,6 @@
     </nav>
   </div>
 </header>
-
-
-
-
   <!-- MAPA SECTION (texto à esquerda, mapa à direita) -->
   <section class="mapa">
     <div class="mapa-container">
@@ -63,25 +58,51 @@
 
   <!-- SEÇÃO DE VANTAGENS -->
   <section id="vantagens" class="vantagens-section">
-    <h2>Por que escolher o Self Park?</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Praticidade</h3>
-        <p>Reserve sua vaga com poucos cliques e evite filas.</p>
+  <h2>Por que escolher o Self Park?</h2>
+
+  <div class="container">
+    <div class="card">
+      <div class="face face1">
+        <div class="content">
+          <h2>Praticidade</h2>
+          <p>Reserve sua vaga com poucos cliques e evite filas.</p>
+        </div>
       </div>
-      <div class="card">
-        <h3>Segurança</h3>
-        <p>Estacione com tranquilidade em locais monitorados.</p>
-      </div>
-      <div class="card">
-        <h3>Economia</h3>
-        <p>Pague apenas pelo tempo que realmente utilizou.</p>
+      <div class="face face2">
+        <h2>01</h2>
       </div>
     </div>
-  </section>
+
+    <div class="card">
+      <div class="face face1">
+        <div class="content">
+          <h2>Segurança</h2>
+          <p>Estacione com tranquilidade em locais monitorados.</p>
+        </div>
+      </div>
+      <div class="face face2">
+        <h2>02</h2>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="face face1">
+        <div class="content">
+          <h2>Economia</h2>
+          <p>Pague apenas pelo tempo que realmente utilizou.</p>
+        </div>
+      </div>
+      <div class="face face2">
+        <h2>03</h2>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
   <!-- FOOTER -->
-  <footer class="footer">
+   <footer class="footer">
     <div class="footer-content">
       <img src="assets/selfLOGO.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
       <div class="footer-buttons">
@@ -94,5 +115,23 @@
   </footer>
 
   <script src="script.js"></script>
+
+
+  <script>
+  // Redirecionamentos personalizados
+  document.getElementById("reservarBtn").onclick = function() {
+    window.location.href = "reservas.html"; // Página de reservas
+  };
+
+  document.getElementById("loginBtn").onclick = function() {
+    window.location.href = "login.html"; // Página de login
+  };
+
+  document.getElementById("cadastroBtn").onclick = function() {
+    window.location.href = "cadastro.html"; // Página de cadastro
+  };
+</script>
+
+
 </body>
 </html>
