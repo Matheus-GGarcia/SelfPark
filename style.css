@@ -366,10 +366,23 @@ body {
   transition: transform 0.5s ease; /* animação suave */
 }
 
+
+
 .card:hover .face.face2 img {
   transform: scale(0.2); /* diminui para 70% do tamanho */
 }
 
+.face.face1 img {
+  width: 350px;
+  height: 340px;
+  transition: transform 0.5s ease; /* animação suave */
+}
+
+.face.face3 img {
+  width: 350px;
+  height: 340px;
+  transition: transform 0.5s ease; /* animação suave */
+}
 
 
 .footer {
