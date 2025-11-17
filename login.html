@@ -1,137 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Self Park</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="shortcut icon" href="assets/inconeeeeeeeee.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styleLogin.css">
+  <style>
+    
+  </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar" id="navbar">
-  <div class="nav-container">
-    <!-- Botão com ícone temporário (lado esquerdo) -->
-    <a href="login.html" class="nav-photo-btn" title="Login">
-      <i class="fa-solid fa-user"></i>
-    </a>
-
-    <!-- Logo centralizada -->
-    <img src="assets/selfLOGO.png" alt="Logo Self Park" class="nav-logo" id="homeLogo" />
-
-    <!-- Botões à direita -->
-    <nav class="nav-links">
-      <button class="nav-btn" id="reservarBtn">Reservar</button>
-      <button class="nav-btn" id="loginBtn">Login</button>
-      <button class="nav-btn" id="cadastroBtn">Cadastre-se</button>
-    </nav>
-  </div>
-</header>
-  <!-- MAPA SECTION (texto à esquerda, mapa à direita) -->
-  <section class="mapa">
-    <div class="mapa-container">
-      <div class="mapa-text">
-        <h1>Sua vaga garantida, seu tempo valorizado</h1>
-        <p>Reserve, estacione e economize tempo com o Self Park.</p>
+  <nav class="navbar">
+    <div class="nav-container">
+      <img src="assets/selfLOGO.png" alt="Logo" class="nav-logo">
+      <div class="nav-links">
+        <button class="nav-btn">Início</button>
+        <button class="nav-btn">Sobre</button>
+        <button class="nav-btn">Contato</button>
       </div>
-      <div class="mapa-map">
-        <div class="map-placeholder">
-          <i class="fas fa-map-marker-alt map-icon"></i>
-          <p>MAPA INTERATIVO<br>(em breve)</p>
+    </div>
+  </nav>
+
+  <section class="login-section">
+    <div class="login-container">
+      <h1>Boas-vindas de volta!</h1>
+      <p>Estamos muito felizes em te ver novamente.</p>
+      <form class="login-form">
+        <div>
+          <label for="email">E-mail</label>
+          <input type="email" id="email" placeholder="Digite seu e-mail" required>
         </div>
+        <div>
+          <label for="password">Senha</label>
+          <input type="password" id="password" placeholder="Digite sua senha" required>
+        </div>
+        <button type="submit" class="login-btn">Entrar</button>
+      </form>
+      <div class="forgot-password">Esqueceu sua senha?</div>
+      <div class="register-text">
+        Novo por aqui? <a href="#">Crie uma conta</a>
       </div>
     </div>
   </section>
-
-  <!-- SEÇÃO DE VÍDEO -->
-  <section id="video" class="video-section">
-    <div class="video-container">
-      <iframe src="https://www.youtube.com/embed/SEU_VIDEO_AQUI" title="Vídeo explicativo" frameborder="0" allowfullscreen></iframe>
-      <div class="video-text">
-        <h2>VEJA COMO É FÁCIL USAR<br>NOSSO SISTEMA</h2>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DE VANTAGENS -->
-  <section id="vantagens" class="vantagens-section">
-  <h2>Por que escolher o Self Park?</h2>
-
-  <div class="container">
-    <div class="card">
-      <div class="face face1">
-        <div class="content">
-          <h2>Praticidade</h2>
-          <p>Reserve sua vaga com poucos cliques e evite filas.</p>
-        </div>
-      </div>
-      <div class="face face2">
-        <h2>01</h2>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="face face1">
-        <div class="content">
-          <h2>Segurança</h2>
-          <p>Estacione com tranquilidade em locais monitorados.</p>
-        </div>
-      </div>
-      <div class="face face2">
-        <h2>02</h2>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="face face1">
-        <div class="content">
-          <h2>Economia</h2>
-          <p>Pague apenas pelo tempo que realmente utilizou.</p>
-        </div>
-      </div>
-      <div class="face face2">
-        <h2>03</h2>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-  <!-- FOOTER -->
-   <footer class="footer">
-    <div class="footer-content">
-      <img src="assets/selfLOGO.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
-      <div class="footer-buttons">
-        <button class="nav-btn" id="footerReservar">Reservar</button>
-        <button class="nav-btn" id="footerLogin">Login</button>
-        <button class="nav-btn" id="footerCadastro">Cadastre-se</button>
-      </div>
-      <p>© 2025 Self Park | Todos os direitos reservados</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-
-
-  <script>
-  // Redirecionamentos personalizados
-  document.getElementById("reservarBtn").onclick = function() {
-    window.location.href = "reservas.html"; // Página de reservas
-  };
-
-  document.getElementById("loginBtn").onclick = function() {
-    window.location.href = "login.html"; // Página de login
-  };
-
-  document.getElementById("cadastroBtn").onclick = function() {
-    window.location.href = "cadastro.html"; // Página de cadastro
-  };
-</script>
-
 
 </body>
 </html>
