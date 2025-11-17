@@ -18,9 +18,9 @@
     <div class="nav-container">
       <img src="assets/selfLOGO.png" alt="Logo" class="nav-logo">
       <div class="nav-links">
-        <button class="nav-btn">Início</button>
-        <button class="nav-btn">Sobre</button>
-        <button class="nav-btn">Contato</button>
+        <button class="nav-btn" id="homeBtn">Início</button>
+        <button class="nav-btn" id="sobreBtn">Sobre</button>
+        <button class="nav-btn" id="contatoBtn">Contato</button>
       </div>
     </div>
   </nav>
@@ -46,6 +46,21 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // Redirecionamentos personalizados
+    document.getElementById("homeBtn").onclick = function() {
+      window.location.href = "index.html"; // Página Home
+    };
+
+    document.getElementById("sobreBtn").onclick = function() {
+      window.location.href = "sobre.html"; // Página Sobre
+    };
+
+    document.getElementById("contatoBtn").onclick = function() {
+      window.location.href = "contato.html"; // Página Contato
+    };
+  </script>
 
 </body>
 </html>
