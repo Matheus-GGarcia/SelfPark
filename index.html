@@ -33,14 +33,31 @@
   <!-- MAPA SECTION (texto à esquerda, mapa à direita) -->
   <section class="mapa">
     <div class="mapa-container">
-      <div class="mapa-text">
-        <h1>Sua vaga garantida, seu tempo valorizado</h1>
-        <p>Reserve, estacione e economize tempo com o Self Park.</p>
-      </div>
+     <div class="mapa-text">
+  <h1 id="frase1" class="show">
+    Sua vaga <br><strong>Garantida</strong>, seu TEMPO <br>Valorizado
+  </h1>
+
+  <h1 id="frase2">
+    Reserve, estacione<br>E economize<br>Tempo com o <br><strong>Self Park</strong>.
+  </h1>
+</div>
       <div class="mapa-map">
-        <div class="map-placeholder">
-          <i class="fas fa-map-marker-alt map-icon"></i>
-          <p>MAPA INTERATIVO<br>(em breve)</p>
+        <div class="map-wrapper" id="mapWrapper">
+          <iframe id="mapFrame"
+            src="https://www.google.com/maps?q=-23.55052,-46.633308&z=15&output=embed"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+
+          <!-- Trilha em canvas -->
+          <canvas id="trailCanvas"></canvas>
+
+          <div class="map-marker" aria-hidden="true"></div>
+
+          <div class="location-name" id="locationName">Carregando localização...</div>
+          <button class="center-btn" id="centerButton">📍 Atualizar Localização</button>
+          <div class="status" id="statusText">Aguardando permissão…</div>
         </div>
       </div>
     </div>
@@ -99,7 +116,84 @@
   </div>
 </section>
 
+<section class="carousel-section">
+    <h2 class="carousel-title">Experiências reais com o Self Park</h2>
 
+    <div class="carousel-wrapper">
+        <div class="carousel-track">
+
+            <!-- CARD 1 -->
+            <div class="carousel-card">
+                <img src="https://randomuser.me/api/portraits/men/40.jpg" class="card-img">
+                <p class="card-text">
+                    “Reservar minha vaga antecipadamente mudou completamente minha rotina.
+                    Simples, rápido e extremamente confiável.”
+                </p>
+                <div class="card-info">
+                    <span class="nome">Carlos M.</span>
+                    <span class="cidade">São Paulo</span>
+                    <span class="nota">10/10 ⭐</span>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="carousel-card">
+                <img src="https://randomuser.me/api/portraits/women/55.jpg" class="card-img">
+                <p class="card-text">
+                    “Sistema impecável! Agora vou ao shopping sem preocupação.
+                    A reserva automática me economizou muito tempo.”
+                </p>
+                <div class="card-info">
+                    <span class="nome">Juliana A.</span>
+                    <span class="cidade">Curitiba</span>
+                    <span class="nota">10/10 ⭐</span>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="carousel-card">
+                <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
+                <p class="card-text">
+                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
+                    Nunca mais perdi tempo procurando vaga.”
+                </p>
+                <div class="card-info">
+                    <span class="nome">Pedro L.</span>
+                    <span class="cidade">Belo Horizonte</span>
+                    <span class="nota">10/10 ⭐</span>
+                </div>
+            </div>
+            <div class="carousel-card">
+                <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
+                <p class="card-text">
+                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
+                    Nunca mais perdi tempo procurando vaga.”
+                </p>
+                <div class="card-info">
+                    <span class="nome">Pedro L.</span>
+                    <span class="cidade">Belo Horizonte</span>
+                    <span class="nota">10/10 ⭐</span>
+                </div>
+            </div>
+            <div class="carousel-card">
+                <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
+                <p class="card-text">
+                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
+                    Nunca mais perdi tempo procurando vaga.”
+                </p>
+                <div class="card-info">
+                    <span class="nome">Pedro L.</span>
+                    <span class="cidade">Belo Horizonte</span>
+                    <span class="nota">10/10 ⭐</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Pontos indicadores -->
+    <div class="carousel-dots"></div>
+</section>
 
   <!-- FOOTER -->
    <footer class="footer">
@@ -130,6 +224,21 @@
   document.getElementById("cadastroBtn").onclick = function() {
     window.location.href = "cadastro.html"; // Página de cadastro
   };
+</script>
+
+<script>
+  const frase1 = document.getElementById("frase1");
+  const frase2 = document.getElementById("frase2");
+
+  frase1.classList.add("show");
+
+  setTimeout(() => {
+    frase1.classList.add("hide-up");
+
+    setTimeout(() => {
+      frase2.classList.add("show");
+    }, 900);
+  }, 5000);
 </script>
 
 
