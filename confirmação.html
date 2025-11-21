@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmação de Reserva - Self Park</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="confirmação.css"> 
+  </head>
+<body>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <img src="assets/selfLOGO.png" alt="Logo Self Park" class="nav-logo" id="homeLogo">
+      <nav class="nav-links">
+        <button class="nav-btn" id="reservarBtn"><a href="reservas.html" style="color:inherit;text-decoration:none;">Reservar</a></button>
+        <button class="nav-btn" id="loginBtn"><a href="login.html" style="color:inherit;text-decoration:none;">Login</a></button>
+        <button class="nav-btn" id="cadastroBtn"><a href="cadastro.html" style="color:inherit;text-decoration:none;">Cadastre-se</a></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content-confirmacao">
+    <div class="card-confirmacao">
+      <div class="header-confirmacao">
+        <span class="material-icons check-icon">check_circle</span>
+        <h2>Confirmação da sua Reserva</h2>
+        <p>Revise os detalhes da sua reserva de vaga.</p>
+      </div>
+
+      <div class="detalhes-evento">
+        <span class="material-icons event-icon">local_activity</span>
+        <h3 id="nomeEvento">Carregando Nome do Evento...</h3>
+        <p id="localEvento">Local do Evento (ID: <span id="localIdDisplay"></span>)</p>
+      </div>
+
+      <div class="detalhes-reserva">
+        <div class="resumo-tempo">
+          <div class="item-tempo">
+            <span class="material-icons">login</span>
+            <p>Entrada:</p>
+            <p class="data-hora" id="dataEntrada">--/--/----</p>
+            <p class="data-hora hora" id="horaEntrada">--:--</p>
+          </div>
+          <div class="item-tempo">
+            <span class="material-icons">logout</span>
+            <p>Saída:</p>
+            <p class="data-hora" id="dataSaida">--/--/----</p>
+            <p class="data-hora hora" id="horaSaida">--:--</p>
+          </div>
+        </div>
+        
+        <div class="duracao-total">
+          <span class="material-icons">timer</span>
+          <p>Duração Total:</p>
+          <p class="duracao" id="duracaoReserva">--h --m</p>
+        </div>
+      </div>
+
+      <div class="detalhes-preco">
+        <div class="item-preco">
+          <span>Valor da Reserva:</span>
+          <span id="valorReserva">R$ 55,00</span> </div>
+        <div class="item-preco total">
+          <span>Total a Pagar:</span>
+          <span id="valorTotal">R$ 55,00</span>
+        </div>
+      </div>
+
+      <button class="btn-prossegir" id="btnProsseguir">
+        Prosseguir para o Pagamento
+        <span class="material-icons">arrow_forward</span>
+      </button>
+    </div>
+    
+  </main>
+
+  <script src="confirmação.js"></script>
+</body>
+</html>
