@@ -71,4 +71,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // aplica no carregamento
   applyFilters();
+
+
+  // ... (código existente da função applyFilters) ...
+
+  // Novo: Adiciona Listener para construir o link com eventId e localId
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault(); // Impede o link padrão
+
+      const eventId = card.dataset.eventId;
+      const localId = card.dataset.localId;
+      const destino = card.getAttribute('href'); // datetime.html
+
+      if (eventId && localId && destino) {
+        // Redireciona para datetime.html passando os IDs
+        window.location.href = `${destino}?eventId=${eventId}&localId=${localId}`;
+      } else {
+        // Volta para o comportamento padrão se faltarem dados (opcional)
+        window.location.href = destino; 
+      }
+    });
+  });
+
+  // aplica no carregamento
+  applyFilters();
 });
+

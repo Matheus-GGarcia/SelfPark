@@ -1,0 +1,255 @@
+/* Estilo Base da sua aplicação (assumindo Poppins e cores primárias) */
+:root {
+    --color-primary: #007bff; /* Exemplo: Azul */
+    --color-secondary: #0056b3;
+    --color-text: #333;
+    --color-bg-light: #f4f4f4;
+    --color-success: #28a745;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-bg-light);
+    color: var(--color-text);
+}
+
+/* Estilo do Cabeçalho (navbar) - Replicando o seu código */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.nav-logo {
+    height: 40px; /* Ajuste conforme o tamanho real da sua logo */
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    background-color: transparent;
+    color: var(--color-primary);
+}
+
+#reservarBtn, #loginBtn, #cadastroBtn {
+    background-color: var(--color-primary);
+    color: white;
+    border: 1px solid var(--color-primary);
+}
+#reservarBtn:hover, #loginBtn:hover, #cadastroBtn:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Estilo da Tela de Confirmação */
+
+.main-content-confirmacao {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.card-confirmacao {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+}
+
+/* Header da Confirmação */
+.header-confirmacao {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.check-icon {
+    font-size: 48px;
+    color: var(--color-success);
+    margin-bottom: 10px;
+}
+
+.header-confirmacao h2 {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.header-confirmacao p {
+    color: #666;
+}
+
+/* Detalhes do Evento */
+.detalhes-evento {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: #f0f8ff; /* Cor de fundo suave para destacar */
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-left: 5px solid var(--color-primary);
+}
+
+.event-icon {
+    font-size: 32px;
+    color: var(--color-primary);
+}
+
+.detalhes-evento h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-secondary);
+}
+
+.detalhes-evento p {
+    font-size: 0.85em;
+    color: #888;
+}
+
+/* Detalhes da Reserva (Tempo) */
+.detalhes-reserva {
+    margin-bottom: 25px;
+    padding: 15px 0;
+    border-bottom: 1px dashed #ddd;
+    border-top: 1px dashed #ddd;
+}
+
+.resumo-tempo {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.item-tempo {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-right: 1px solid #eee;
+}
+
+.item-tempo:last-child {
+    border-right: none;
+}
+
+.item-tempo .material-icons {
+    font-size: 28px;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+}
+
+.item-tempo p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.item-tempo .data-hora {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 1em;
+}
+
+.item-tempo .hora {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--color-secondary);
+}
+
+.duracao-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--color-bg-light);
+    border-radius: 4px;
+}
+
+.duracao-total .material-icons {
+    color: var(--color-primary);
+}
+
+.duracao-total p {
+    font-size: 1em;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.duracao-total .duracao {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--color-success);
+}
+
+/* Detalhes do Preço */
+.detalhes-preco {
+    margin-bottom: 30px;
+}
+
+.item-preco {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 1em;
+    border-bottom: 1px solid #eee;
+}
+
+.item-preco:last-child {
+    border-bottom: none;
+    margin-top: 10px;
+}
+
+.item-preco.total {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Botão Prosseguir */
+.btn-prossegir {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--color-success);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-prossegir:hover {
+    background-color: #1e7e34;
+}

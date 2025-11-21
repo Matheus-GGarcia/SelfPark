@@ -56,39 +56,77 @@
     </div>
   </main>
 
-  <script>
+<script>
     const form = document.getElementById('reservaForm');
     const mensagem = document.getElementById('mensagem');
 
+    // 1. Extração de IDs
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('eventId') || '1234'; 
+    const localId = urlParams.get('localId') || '32'; 
+    
+    console.log(`IDs de Evento e Local: EventID=${eventId}, LocalID=${localId}`);
+
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
+        e.preventDefault(); 
 
-      const entradaData = document.getElementById('entradaData').value;
-      const entradaHora = document.getElementById('entradaHora').value;
-      const saidaData = document.getElementById('saidaData').value;
-      const saidaHora = document.getElementById('saidaHora').value;
+        // Limpa mensagem de erro
+        mensagem.textContent = '';
+        mensagem.className = 'mensagem';
 
-      if (!entradaData || !entradaHora || !saidaData || !saidaHora) {
-        mensagem.textContent = 'Preencha todos os campos.';
-        mensagem.classList.add('erro');
-        return;
-      }
+        // Coleta de Dados
+        const entradaData = document.getElementById('entradaData').value;
+        const entradaHora = document.getElementById('entradaHora').value;
+        const saidaData = document.getElementById('saidaData').value;
+        const saidaHora = document.getElementById('saidaHora').value;
 
-      const entrada = new Date(`${entradaData}T${entradaHora}`);
-      const saida = new Date(`${saidaData}T${saidaHora}`);
+        // VALIDAÇÃO 1: Campos Preenchidos
+        if (!entradaData || !entradaHora || !saidaData || !saidaHora) {
+            mensagem.textContent = 'Preencha todos os campos de data e hora.';
+            mensagem.classList.add('erro');
+            return; 
+        }
 
-      if (saida <= entrada) {
-        mensagem.textContent = 'A saída deve ser posterior à entrada.';
-        mensagem.classList.add('erro');
-        return;
-      }
+        // CRIAÇÃO DE DATAS NO FUSO HORÁRIO LOCAL PARA COMPARAÇÃO ESTÁVEL
+        // A sintaxe "YYYY-MM-DDTHH:MM:00" (sem o 'Z') é a mais segura para criar Date() no fuso local.
+        const entradaStrLocal = `${entradaData}T${entradaHora}:00`;
+        const saidaStrLocal = `${saidaData}T${saidaHora}:00`;
 
-      mensagem.classList.remove('erro');
-      mensagem.textContent = `Reserva confirmada! 
-      Entrada: ${entrada.toLocaleString('pt-BR')} 
-      | Saída: ${saida.toLocaleString('pt-BR')}`;
-      mensagem.classList.add('sucesso');
+        const entrada = new Date(entradaStrLocal);
+        const saida = new Date(saidaStrLocal);
+        
+        // VALIDAÇÃO 2: Verificação se as datas foram criadas corretamente
+        if (isNaN(entrada.getTime()) || isNaN(saida.getTime())) {
+            mensagem.textContent = 'Erro ao processar a data. Verifique se o formato está correto.';
+            mensagem.classList.add('erro');
+            return;
+        }
+
+        // VALIDAÇÃO 3: Saída deve ser maior que a Entrada
+        if (saida <= entrada) {
+            mensagem.textContent = 'A data/hora de Saída deve ser posterior à de Entrada.';
+            mensagem.classList.add('erro');
+            return; 
+        }
+
+        // CONVERSÃO FINAL PARA ISO 8601 COM 'Z' (UTC) para a tela de confirmação
+        // O método .toISOString() é o padrão para o Estapar/confirmacao.html
+        const entradaISO = entrada.toISOString();
+        const saidaISO = saida.toISOString();
+        
+        // Montagem dos Parâmetros para confirmacao.html
+        const params = new URLSearchParams();
+        params.append('eventId', eventId);
+        params.append('localId', localId);
+        params.append('entrada', entradaISO);
+        params.append('saida', saidaISO);
+
+        const redirectUrl = `confirmação.html?${params.toString()}`;
+
+        // REDIRECIONAMENTO (Obrigatório após validação)
+        console.log('Validação OK. Redirecionando para:', redirectUrl);
+        window.location.href = redirectUrl; 
     });
-  </script>
+</script>
 </body>
 </html>
