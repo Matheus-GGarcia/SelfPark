@@ -277,9 +277,13 @@ iframe {
   }
 }
 
+<<<<<<< HEAD
 /* ============================ */
 /*      🔥 TEXTO AJUSTADO       */
 /* ============================ */
+=======
+
+>>>>>>> repo2/main
 
 .mapa-text {
   flex: 1;
@@ -287,7 +291,11 @@ iframe {
   position: relative;
   height: 240px; /* mantém o mesmo tamanho visual */
   overflow: visible; /* evita cortar o texto */
+<<<<<<< HEAD
   margin-top: -40px;
+=======
+  top: -55px;
+>>>>>>> repo2/main
 }
 
 .mapa-text h1 {
@@ -418,7 +426,11 @@ iframe {
 
 /* === GRID CONTAINER === */
 .container {
+<<<<<<< HEAD
   width: 1150px;
+=======
+  width: 1130px;
+>>>>>>> repo2/main
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-gap: 15px;
@@ -433,8 +445,15 @@ iframe {
   height: 300px;
   margin: 0 auto;
   background: #fff;
+<<<<<<< HEAD
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
+=======
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  right: 8vh;
+  
+>>>>>>> repo2/main
   
 }
 
@@ -448,7 +467,11 @@ iframe {
   display: flex;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   margin-right: 450px;
+=======
+  
+>>>>>>> repo2/main
 }
 
 /* === FACE 1 === */

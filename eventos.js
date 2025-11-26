@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // aplica no carregamento
   applyFilters();
+<<<<<<< HEAD
 
 
   // ... (código existente da função applyFilters) ...
@@ -98,3 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
   applyFilters();
 });
 
+=======
+});
+
+document.getElementById("homeLogo").onclick = function() {
+      window.location.href = "index.html"; // Página Home
+};
+>>>>>>> repo2/main
