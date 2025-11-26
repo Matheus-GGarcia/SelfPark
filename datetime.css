@@ -164,13 +164,8 @@
     }
 
     .confirm-btn {
-<<<<<<< HEAD
-      background: linear-gradient(110deg, var(--blue-dark), var(--shadow));
-      color: white;
-=======
       background: linear-gradient(180deg, var(--blue-dark), var(--accent));
       color: var(--white);
->>>>>>> repo2/main
       font-weight: 600;
       border: none;
       border-radius: 50px;
@@ -184,11 +179,7 @@
 
     .confirm-btn:hover {
       transform: scale(1.08);
-<<<<<<< HEAD
-      box-shadow: 0 10px 28px rgba(255, 255, 255, 0.979);
-=======
       box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
->>>>>>> repo2/main
     }
 
     @keyframes fadeIn {

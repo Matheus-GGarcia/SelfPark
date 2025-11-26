@@ -18,13 +18,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-<<<<<<< HEAD
-  min-height: 100vh;       /* CORREÇÃO */
-  overflow-x: hidden;      /* CORREÇÃO */
-=======
   min-height: 100vh;
   overflow-x: hidden;
->>>>>>> repo2/main
   padding-top: 90px;       /* Mantém o espaço da navbar */
 }
 
@@ -33,19 +28,10 @@ body {
 .navbar {
   width: 100%;
   background-color: #1E3A8A;
-<<<<<<< HEAD
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background-color 0.3s ease, padding 0.3s ease;
-=======
   position: absolute;
   top: 0;
   left: 0;
   z-index: 100;
->>>>>>> repo2/main
   height: 50px;
 }
 
