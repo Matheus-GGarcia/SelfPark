@@ -97,7 +97,7 @@ body {
 /* ========== LOGIN PAGE ========== */
 .login-section {
     height: 100vh;
-    background-image: url(assets/Garagem.gif);
+    background-image: url(/assets/Garagem.gif);
     background-size: cover;
     background-position: center;
     display: flex;
