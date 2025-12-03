@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escolha Data e Horário</title>
-  <link rel="stylesheet" href="datetime.css">
+  <link rel="stylesheet" href="CSS/datetime.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -56,77 +56,7 @@
     </div>
   </main>
 
-<script>
-    const form = document.getElementById('reservaForm');
-    const mensagem = document.getElementById('mensagem');
-
-    // 1. Extração de IDs
-    const urlParams = new URLSearchParams(window.location.search);
-    const eventId = urlParams.get('eventId') || '1234'; 
-    const localId = urlParams.get('localId') || '32'; 
-    
-    console.log(`IDs de Evento e Local: EventID=${eventId}, LocalID=${localId}`);
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault(); 
-
-        // Limpa mensagem de erro
-        mensagem.textContent = '';
-        mensagem.className = 'mensagem';
-
-        // Coleta de Dados
-        const entradaData = document.getElementById('entradaData').value;
-        const entradaHora = document.getElementById('entradaHora').value;
-        const saidaData = document.getElementById('saidaData').value;
-        const saidaHora = document.getElementById('saidaHora').value;
-
-        // VALIDAÇÃO 1: Campos Preenchidos
-        if (!entradaData || !entradaHora || !saidaData || !saidaHora) {
-            mensagem.textContent = 'Preencha todos os campos de data e hora.';
-            mensagem.classList.add('erro');
-            return; 
-        }
-
-        // CRIAÇÃO DE DATAS NO FUSO HORÁRIO LOCAL PARA COMPARAÇÃO ESTÁVEL
-        // A sintaxe "YYYY-MM-DDTHH:MM:00" (sem o 'Z') é a mais segura para criar Date() no fuso local.
-        const entradaStrLocal = `${entradaData}T${entradaHora}:00`;
-        const saidaStrLocal = `${saidaData}T${saidaHora}:00`;
-
-        const entrada = new Date(entradaStrLocal);
-        const saida = new Date(saidaStrLocal);
-        
-        // VALIDAÇÃO 2: Verificação se as datas foram criadas corretamente
-        if (isNaN(entrada.getTime()) || isNaN(saida.getTime())) {
-            mensagem.textContent = 'Erro ao processar a data. Verifique se o formato está correto.';
-            mensagem.classList.add('erro');
-            return;
-        }
-
-        // VALIDAÇÃO 3: Saída deve ser maior que a Entrada
-        if (saida <= entrada) {
-            mensagem.textContent = 'A data/hora de Saída deve ser posterior à de Entrada.';
-            mensagem.classList.add('erro');
-            return; 
-        }
-
-        // CONVERSÃO FINAL PARA ISO 8601 COM 'Z' (UTC) para a tela de confirmação
-        // O método .toISOString() é o padrão para o Estapar/confirmacao.html
-        const entradaISO = entrada.toISOString();
-        const saidaISO = saida.toISOString();
-        
-        // Montagem dos Parâmetros para confirmacao.html
-        const params = new URLSearchParams();
-        params.append('eventId', eventId);
-        params.append('localId', localId);
-        params.append('entrada', entradaISO);
-        params.append('saida', saidaISO);
-
-        const redirectUrl = `confirmação.html?${params.toString()}`;
-
-        // REDIRECIONAMENTO (Obrigatório após validação)
-        console.log('Validação OK. Redirecionando para:', redirectUrl);
-        window.location.href = redirectUrl; 
-    });
+<script src="JS/datetime.js">
 </script>
 </body>
 </html>
