@@ -32,36 +32,48 @@
 </header>
   <!-- MAPA SECTION (texto à esquerda, mapa à direita) -->
   <section class="mapa">
+
+    <!-- Vídeo de fundo -->
+    <video class="video-fundo" autoplay muted loop>
+        <source src="assets/videoFundo.mp4" type="video/mp4">
+    </video>
+
     <div class="mapa-container">
-     <div class="mapa-text">
-  <h1 id="frase1" class="show">
-    Sua vaga <br><strong>Garantida</strong>, seu TEMPO <br>Valorizado
-  </h1>
 
-  <h1 id="frase2">
-    Reserve, estacione<br>E economize<br>Tempo com o <br><strong>Self Park</strong>.
-  </h1>
-</div>
-      <div class="mapa-map">
-        <div class="map-wrapper" id="mapWrapper">
-          <iframe id="mapFrame"
-            src="https://www.google.com/maps?q=-23.55052,-46.633308&z=15&output=embed"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
+        <div class="mapa-text">
+            <h1 id="frase1" class="show">
+                Sua vaga <br><strong>Garantida</strong>, seu TEMPO <br>Valorizado
+            </h1>
 
-          <!-- Trilha em canvas -->
-          <canvas id="trailCanvas"></canvas>
-
-          <div class="map-marker" aria-hidden="true"></div>
-
-          <div class="location-name" id="locationName">Carregando localização...</div>
-          <button class="center-btn" id="centerButton">📍 Atualizar Localização</button>
-          <div class="status" id="statusText">Aguardando permissão…</div>
+            <h1 id="frase2">
+                Reserve, estacione<br>E economize<br>Tempo com o <br><strong>Self Park</strong>.
+            </h1>
         </div>
-      </div>
+
+        <div class="mapa-map">
+            <div class="map-wrapper" id="mapWrapper">
+
+                <iframe id="mapFrame"
+                    src="https://www.google.com/maps?q=-23.55052,-46.633308&z=15&output=embed"
+                    allowfullscreen
+                    loading="lazy"></iframe>
+
+                <!-- Trilha em canvas -->
+                <canvas id="trailCanvas"></canvas>
+
+                <div class="map-marker" aria-hidden="true"></div>
+                <div class="location-name" id="locationName">Carregando localização...</div>
+
+                <button class="center-btn" id="centerButton">📍 Atualizar Localização</button>
+                <div class="status" id="statusText">Aguardando permissão…</div>
+
+            </div>
+        </div>
+
     </div>
-  </section>
+
+</section>
+
 
   <!-- SEÇÃO DE VÍDEO -->
   <section id="video" class="video-section">
