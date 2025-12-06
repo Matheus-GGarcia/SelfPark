@@ -12,7 +12,7 @@
 #eventos { background-image: url('imagens/eventos.png'); }
 
 body {
-  background-color: #1E3A8A;
+  backdrop-filter: blur(1px);
   color: white;
   display: flex;
   flex-direction: column;
@@ -20,21 +20,51 @@ body {
   justify-content: flex-start;
   min-height: 100vh;       /* CORREÇÃO */
   overflow-x: hidden;      /* CORREÇÃO */
-  padding-top: 90px;       /* Mantém o espaço da navbar */
+  padding-top: 40px;       /* Mantém o espaço da navbar */
+ 
 }
 
 /* -------------------------- NAVBAR -------------------------- */
 
+.video-fundo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  filter: brightness(0.48) contrast(1.15) saturate(1.15);
+}
+
+/* Layer que remove neblina e deixa o vídeo cinematográfico */
+.video-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+     rgba(0, 0, 0, 0.35),
+     rgba(0, 0, 0, 0.35)
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+
 .navbar {
   width: 100%;
-  background-color: #1E3A8A;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: background-color 0.3s ease, padding 0.3s ease;
-  height: 50px;
+  backdrop-filter: blur(10px);
+  height: 65px;
+  padding-top: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s ease;
 }
 
 .nav-container {
@@ -48,7 +78,7 @@ body {
 }
 
 .nav-logo {
-  width: 85px;
+   width: 85px;
   cursor: pointer;
   transition: transform 0.3s ease;
   position: absolute;
@@ -58,6 +88,9 @@ body {
 }
 
 .nav-logo:hover {
+
+  color: #cbd5e1;
+  text-shadow: 0 0 4px rgba(255,255,255,0.3);
   transform: translateX(-50%) scale(1.05);
 }
 
@@ -94,16 +127,18 @@ body {
   align-items: center;
 }
 
-
+/* INPUT */
 .search-container input {
   width: 700px;
   padding: 10px 40px 10px 0;
   border: none;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid rgba(255,255,255,0.85); /* atualizado */
   background: transparent;
   color: white;
   font-size: 1rem;
   outline: none;
+  margin-top: 30px;
+  transition: 0.3s ease; /* efeito suave */
 }
 
 .search-container input::placeholder {
@@ -111,6 +146,13 @@ body {
   opacity: 0.8;
 }
 
+/* Efeito quando o input recebe foco */
+.search-container input:focus {
+  border-bottom: 2px solid white;
+  text-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+
+/* BOTÃO */
 .search-container button {
   background: transparent;
   border: none;
@@ -118,13 +160,17 @@ body {
   margin-left: 10px;
 }
 
+/* ÍCONE DO BOTÃO */
 .search-container button svg {
   width: 20px;
   height: 20px;
   stroke: white;
   stroke-width: 2;
   fill: none;
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.6)); /* efeito premium */
 }
+
+
 
 /* -------------------------- ICON GRID -------------------------- */
 
@@ -136,64 +182,83 @@ body {
   margin-top: 80px;
   justify-items: center;
   align-items: center;
+ 
 }
 
 .icon-grid a:nth-child(4) { grid-column: 2; }
 .icon-grid a:nth-child(5) { grid-column: 3; }
 
 /* Círculos */
+/* ==== ÍCONES CIRCULARES PREMIUM ==== */
+
+/* ==== ÍCONES CIRCULARES — VERSÃO CLARA ==== */
+
 .item {
   --itemWidth: 230px;
-  --itemWidthMinus: calc(-1 * var(--itemWidth));
   width: var(--itemWidth);
   height: var(--itemWidth);
   border-radius: 50%;
-  background-color: white;
+
+  /* Agora claro, iluminado, combinando com o vídeo */
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 2px solid rgba(255,255,255,0.55);
+
   display: grid;
-  place-items: center; /*Centraliza sem precisar do align e justify*/
-  cursor: pointer;
+  place-items: center;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    inset var(--itemWidthMinus) var(--itemWidthMinus) 0 white,
-    inset var(--itemWidthMinus) var(--itemWidth) 0 rgb(4, 4, 168),
-      inset var(--itemWidth) var(--itemWidthMinus) 0 green,
-    inset var(--itemWidth) var(--itemWidth) 0 rgb(255, 0, 0),
-    0 0 20px silver;
-  transition: box-shadow 0.7s ease-in-out, transform 0.4s ease;
+  cursor: pointer;
+  margin-top: 20px;
+
+  /* Sombra leve e clara */
+  box-shadow: 0 0 25px rgba(255,255,255,0.45);
+
+  /* Transições premium */
+  transition:
+    transform 0.35s cubic-bezier(.12,.82,.25,1),
+    box-shadow 0.4s ease,
+    background 0.35s ease,
+    border 0.35s ease;
 }
 
 .item:hover {
-  box-shadow:
-    inset 0 0 0 transparent,
-    inset 0 0 0 transparent,
-    inset 0 0 0 transparent,
-    inset 0 0 0 transparent,
-    0 0 20px silver;
-  transform: scale(1.05);
+  transform: scale(1.10);
+  background: rgba(255,255,255,0.50);
+  border: 2px solid rgba(255,255,255,0.85);
+  box-shadow: 0 0 38px rgba(255,255,255,0.75);
 }
 
+/* ==== IMG ==== */
 .item img {
   width: 60%;
   height: 60%;
   object-fit: contain;
-  transition: opacity 1.2s ease;
-  z-index: 1;
-}
-
-.item span {
-  position: absolute;
-  color: black;
-  font-weight: 600;
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  z-index: 2;
+  z-index: 1;
 }
 
 .item:hover img {
   opacity: 0;
+  transform: scale(1.15);
+}
+
+/* ==== TEXTO ==== */
+.item span {
+  position: absolute;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.3rem;
+  
+  opacity: 0;
+  transform: translateY(20px);
+
+  /* Agora com brilho branco */
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 2;
 }
 
 .item:hover span {
@@ -201,15 +266,16 @@ body {
   transform: translateY(0);
 }
 
-/* Ajustes individuais */
+/* -- Seus ajustes individuais -- */
 #estadio { transform: translateX(-180px); }
 #eventos { transform: translateX(-135px); }
-#hotel { transform: translateX(-40px); }
-#shopping { transform: translateX(40px); }
+#hotel   { transform: translateX(-40px);  }
+#shopping{ transform: translateX(40px);   }
 
 a {
   text-decoration: none;
 }
+
 
 
 
