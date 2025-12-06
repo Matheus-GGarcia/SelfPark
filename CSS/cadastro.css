@@ -7,9 +7,11 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    background-color: whitesmoke;
-    color: #1E3A8A;
-    scroll-behavior: smooth;
+    background-image: url(../assets/Garagem.gif);
+    background-size: cover;
+     background-position: center;
+
+
 }
 
 /* ========== NAVBAR ========== */
@@ -21,6 +23,7 @@ body {
   left: 0;
   z-index: 100;
   transition: background-color 0.3s ease, padding 0.3s ease;
+
 }
 
 
@@ -97,7 +100,7 @@ body {
 /* ========== LOGIN PAGE ========== */
 .login-section {
     height: 100vh;
-    background-image: url(/assets/Garagem.gif);
+    background-image: url(../assets/Garagem.gif);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -119,8 +122,8 @@ body {
 
 .login-container {
     background-color: white;
-    width: 700px;
-    height: 685px;
+    width: 600px;
+    height: 645px;
     border-radius: 12px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     padding: 2.5rem;

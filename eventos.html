@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eventos</title>
+  <link rel="shortcut icon" href="assets/logoAZUL_letraBRANCA.png">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="CSS/eventos.css">
@@ -15,7 +16,7 @@
 
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <img src="assets/selfLOGO.png" alt="Logo Self Park" class="nav-logo" id="homeLogo">
+      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo" class="nav-logo" onclick="window.location.href='index.html'">
       <nav class="nav-links">
         <button class="nav-btn" id="reservarBtn"><a href="reservas.html" style="color:inherit;text-decoration:none;">Reservar</a></button>
         <button class="nav-btn" id="loginBtn"><a href="login.html" style="color:inherit;text-decoration:none;">Login</a></button>
@@ -80,37 +81,112 @@
       </div>
     </header>
 
-    <section class="row" id="eventsGrid">
-  <a href="datetime.html" class="card" data-city="sp" data-type="show" data-start="2025-11-04" data-end="2025-12-11" data-event-id="1234" data-local-id="32">
-    <div class="img-container">
-      <img src="https://picsum.photos/640/400?random=11" alt="Vozes Negras">
-    </div>
-    <div class="info">
-      <h3>Vozes Negras</h3>
-      <p class="date"><span class="material-icons">event</span> 04/11 a 11/12/2025 • São Paulo</p>
-    </div>
-  </a>
+<section class="events-grid" id="eventsGrid">
 
-  <a href="datetime.html" class="card" data-city="sp" data-type="esporte" data-start="2025-11-06" data-end="2025-11-06" data-event-id="1235" data-local-id="32">
-    <div class="img-container">
-      <img src="https://picsum.photos/640/400?random=12" alt="Palmeiras x Santos">
-    </div>
-    <div class="info">
-      <h3>Palmeiras x Santos</h3>
-      <p class="date"><span class="material-icons">event</span> 06/11/2025 • Allianz Parque</p>
-    </div>
-  </a>
+  <!-- 🔵 SKELETON LOADING (Mostrado antes de carregar os eventos reais) -->
+  <div id="cardsContainer" class="cards-grid">
 
-  <a href="datetime.html" class="card" data-city="sp" data-type="show" data-start="2025-11-06" data-end="2025-11-06" data-event-id="1236" data-local-id="32">
-    <div class="img-container">
-      <img src="https://picsum.photos/640/400?random=13" alt="Moyses Rico e Iara Bicalho">
-    </div>
-    <div class="info">
-      <h3>Moyses Rico e Iara Bicalho</h3>
-      <p class="date"><span class="material-icons">event</span> 06/11/2025 • Villa Country</p>
-    </div>
-  </a>
-  </section>
+
+
+  <!-- 🔥 EVENTOS REAIS (ficam ocultos até o JS remover o skeleton) -->
+  <div class="real-events">
+
+    <!-- EVENTO 1 -->
+    <a href="datetime.html" class="card"
+      data-city="sp" data-type="show" data-start="2025-11-04" data-end="2025-12-11"
+      data-event-id="1234" data-local-id="32">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=11" alt="Vozes Negras">
+      </div>
+
+      <div class="info">
+        <h3>Vozes Negras</h3>
+        <p class="date"><span class="material-icons">event</span> 04/11 a 11/12/2025 • São Paulo</p>
+      </div>
+    </a>
+
+    <!-- EVENTO 2 -->
+    <a href="datetime.html" class="card"
+      data-city="sp" data-type="esporte" data-start="2025-11-06" data-end="2025-11-06"
+      data-event-id="1235" data-local-id="32">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=12" alt="Palmeiras x Santos">
+      </div>
+
+      <div class="info">
+        <h3>Palmeiras x Santos</h3>
+        <p class="date"><span class="material-icons">event</span> 06/11/2025 • Allianz Parque</p>
+      </div>
+    </a>
+
+    <!-- EVENTO 3 -->
+    <a href="datetime.html" class="card"
+      data-city="sp" data-type="show" data-start="2025-11-06" data-end="2025-11-06"
+      data-event-id="1236" data-local-id="32">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=13" alt="Moyses Rico e Iara Bicalho">
+      </div>
+
+      <div class="info">
+        <h3>Moyses Rico e Iara Bicalho</h3>
+        <p class="date"><span class="material-icons">event</span> 06/11/2025 • Villa Country</p>
+      </div>
+    </a>
+
+    <!-- EVENTO 4 -->
+    <a href="datetime.html" class="card"
+      data-city="rj" data-type="show" data-start="2025-12-02" data-end="2025-12-02"
+      data-event-id="1237" data-local-id="77">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=14" alt="DJ Live Rio">
+      </div>
+
+      <div class="info">
+        <h3>DJ Live Rio</h3>
+        <p class="date"><span class="material-icons">event</span> 02/12/2025 • Rio de Janeiro</p>
+      </div>
+    </a>
+
+    <!-- EVENTO 5 -->
+    <a href="datetime.html" class="card"
+      data-city="bh" data-type="teatro" data-start="2025-12-10" data-end="2025-12-20"
+      data-event-id="1238" data-local-id="55">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=15" alt="Peça A Rainha">
+      </div>
+
+      <div class="info">
+        <h3>A Rainha</h3>
+        <p class="date"><span class="material-icons">event</span> 10/12 a 20/12/2025 • BH</p>
+      </div>
+    </a>
+
+    <!-- EVENTO 6 -->
+    <a href="datetime.html" class="card"
+      data-city="cur" data-type="exposicao" data-start="2025-12-01" data-end="2025-12-18"
+      data-event-id="1239" data-local-id="90">
+
+      <div class="img-container">
+        <img src="https://picsum.photos/640/400?random=16" alt="Exposição Futuro 2050">
+      </div>
+
+      <div class="info">
+        <h3>Exposição Futuro 2050</h3>
+        <p class="date"><span class="material-icons">event</span> 01/12 a 18/12/2025 • Curitiba</p>
+      </div>
+    </a>
+
+  </div> 
+
+</section>
+
+
+
   </main>
 
   <script src="JS/eventos.js"></script>
