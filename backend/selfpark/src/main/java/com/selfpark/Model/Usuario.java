@@ -1,3 +1,4 @@
+
 package com.selfpark.Model;
 
 
@@ -39,4 +40,14 @@ public class Usuario{
     public void setEmail(String email) {this.email = email;}
     public void setTelefone(String telefone) {this.telefone = telefone;}
     public void setSenha(String senha) {this.senha = senha;}
+
+
+
+
+
+@Entity
+@Table(nome = "tb_usuario")
+public class Usuario{
+    
+
 }
