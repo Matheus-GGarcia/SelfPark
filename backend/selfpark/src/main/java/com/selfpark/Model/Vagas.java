@@ -19,6 +19,7 @@ public class Vagas {
     @JoinColumn(name = "id_estacionamento")
     private Estacionamento estacionamento;
 
+    
 
 
     public Integer getNumerosVagas() {return numerosVagas;}
