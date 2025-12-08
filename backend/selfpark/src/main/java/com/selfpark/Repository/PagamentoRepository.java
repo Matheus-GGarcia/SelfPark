@@ -1,6 +1,10 @@
 package com.selfpark.Repository;
 
+import com.selfpark.Model.Pagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PagamentoRepository extends JpaRepository<PagamentoRepository, Long> {
+
+@Repository
+public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
 }

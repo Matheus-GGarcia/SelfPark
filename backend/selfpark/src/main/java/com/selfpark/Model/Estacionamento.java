@@ -10,7 +10,7 @@ public class Estacionamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_estacionamento;
 
-    @Column(name = "name")
+    @Column(name = "nome")
     private String nome ;
 
     @Column(name = "endereco")
@@ -19,7 +19,7 @@ public class Estacionamento {
     @Column(name = "cidade")
     private String cidade ;
 
-    @Column(name = "total_vag")
+    @Column(name = "total_vaga")
     private int total_vag ;
 
 
