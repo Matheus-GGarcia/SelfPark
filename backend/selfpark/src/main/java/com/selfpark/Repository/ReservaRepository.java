@@ -1,6 +1,10 @@
 package com.selfpark.Repository;
 
+import com.selfpark.Model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ReservaRepository extends JpaRepository<ReservaRepository, Long> {
+
+@Repository
+public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 }
