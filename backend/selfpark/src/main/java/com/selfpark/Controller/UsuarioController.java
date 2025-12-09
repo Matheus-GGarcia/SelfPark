@@ -6,8 +6,7 @@ import com.selfpark.Repository.UsuariosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+
 
 @CrossOrigin("*")
 @RestController
@@ -24,6 +23,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public void delete (@PathVariable int id){
+
         userrepository.deleteById(id);
     }
 

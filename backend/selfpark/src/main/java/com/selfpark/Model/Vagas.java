@@ -9,7 +9,7 @@ public class Vagas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVaga;
+    private Integer idVaga;
 
     private Integer numerosVagas;
     private String tipo;

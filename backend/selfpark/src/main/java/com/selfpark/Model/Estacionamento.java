@@ -20,11 +20,11 @@ public class Estacionamento {
     private String cidade ;
 
     @Column(name = "total_vaga")
-    private int total_vag ;
+    private int total_vaga ;
 
 
-    public int getTotal_vag() {return total_vag;}
-    public void setTotal_vag(int total_vag) {this.total_vag = total_vag;}
+    public int getTotal_vag() {return total_vaga;}
+    public void setTotal_vag(int total_vag) {this.total_vaga = total_vag;}
 
     public String getCidade() {return cidade;}
     public void setCidade(String cidade) {this.cidade = cidade;}

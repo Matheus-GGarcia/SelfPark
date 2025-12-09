@@ -10,7 +10,7 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReserva;
+    private Integer idReserva;
 
     private LocalDate dataReserva;
     private LocalDateTime horaInicial;
