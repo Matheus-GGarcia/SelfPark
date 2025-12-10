@@ -1,8 +1,15 @@
 package com.selfpark.Model;
 
-import jakarta.persistence.*;
-import java.time.*;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_reserva")
@@ -10,40 +17,51 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idReserva;
+    private Integer id;
 
-    private LocalDate dataReserva;
-    private LocalDateTime horaInicial;
-    private LocalDateTime horaFim;
+    @Column(name = "data_entrada")
+    private LocalDateTime entradaData;
 
-    @ManyToOne
-    @JoinColumn(name = "id_estacionamento")
-    private Estacionamento estacionamento;
+    @Column(name = "data_saida")
+    private LocalDateTime saidaData;
 
-    @ManyToOne
-    @JoinColumn(name = "id_veiculo")
-    private Veiculo veiculo;
+    @Column(name = "status_pagamento")
+    private String status_pagamento;
 
     @ManyToOne
-    @JoinColumn(name = "id_vagas")
-    private Vagas vaga;
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;  // Mude de idUsuario para usuario
 
-    public LocalDate getDataReserva() {return dataReserva;}
-    public void setDataReserva(LocalDate dataReserva) {this.dataReserva = dataReserva;}
+    @ManyToOne
+    @JoinColumn(name = "id_placa")
+    private Placa placa;  // Mude de idPlaca para placa
 
-    public LocalDateTime getHoraInicial() {return horaInicial;}
-    public void setHoraInicial(LocalDateTime horaInicial) {this.horaInicial = horaInicial;}
 
-    public LocalDateTime getHoraFim() {return horaFim;}
-    public void setHoraFim(LocalDateTime horaFim) {this.horaFim = horaFim;}
+    public Integer getId(){
+        return id;
+    }
+    public LocalDateTime getDataEntrada(){
+        return entradaData;
+    }
+    public LocalDateTime getDataSaida(){
+        return saidaData;
+    }
+    public String getPagamento(){
+        return status_pagamento;
+    } 
 
-    public Estacionamento getEstacionamento() {return estacionamento;}
-    public void setEstacionamento(Estacionamento estacionamento) {this.estacionamento = estacionamento;}
-
-    public Veiculo getVeiculo() {return veiculo;}
-    public void setVeiculo(Veiculo veiculo) {this.veiculo = veiculo;}
-
-    public Vagas getVaga() {return vaga;}
-    public void setVaga(Vagas vaga) {this.vaga = vaga;}
-
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setDataEntrada(LocalDateTime data){
+        this.entradaData = data;
+    }
+    public void setDataSaida(LocalDateTime data){
+        this.saidaData = data;
+    }
+    public void setPagamento(String paga){
+        this.status_pagamento = paga;
+    } 
 }
+
+
