@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Reserva Estacionamento Premium (Refatorado)</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        /* 🎨 Design System: Cores e Variáveis */
+        :root{
+            --bg-dark: #0f1217; /* Fundo principal */
+            --surface-dark: #1a1e26; /* Superfície de painéis e cards */
+            --text-white: #f0f3f6; /* Texto principal (Branco suave) */
+            --muted-light: #9ea7b4; /* Texto secundário/sutil (Cinza claro) */
+            
+            --blue-accent: #3b82f6; /* Azul primário de destaque */
+            --blue-accent-dark: #2563eb; /* Azul escuro (para gradientes) */
+            --blue-light: rgba(59, 130, 246, 0.15); /* Azul translúcido */
+
+            --glass: rgba(255,255,255,0.03);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            --danger: #ef4444; /* Vermelho para ações perigosas */
+            
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --fw-800: 800;
+            --fw-700: 700;
+            --fw-600: 600;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        /* Base Reset & Typography */
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #050607 100%);
+            color: var(--text-white);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            padding:28px;
+        }
+        
+        /* Grid Principal */
+        .app {
+            max-width:1280px;
+            margin:0 auto;
+            display:grid;
+            grid-template-columns: 1fr 420px;
+            gap:32px;
+            align-items:start;
+        }
+
+        /* Cards e Painéis */
+        .panel, .sidebar {
+            background: var(--surface-dark);
+            border-radius: var(--radius-lg);
+            padding:24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .sidebar {
+            height: fit-content;
+        }
+
+        /* Título e Navegação */
+        .crumb {
+            display:inline-flex;
+            gap:10px;
+            align-items:center;
+            color:var(--muted-light);
+            font-size:14px;
+        }
+        .title{
+            font-size:32px;
+            font-weight:var(--fw-800);
+            margin-top:4px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Mapa (Placeholder) */
+        .map {
+            margin-top:24px;
+            height:420px;
+            border-radius:var(--radius-md);
+            overflow:hidden;
+            position:relative;
+            /* Mock do mapa com o novo destaque azul */
+            background:
+                radial-gradient(circle at 20% 30%, var(--blue-light), transparent 8%),
+                linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.0)),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect width="100%" height="100%" fill="%231a1e26"/><g fill="%239ea7b4" font-family="Arial" font-size="16"><text x="40" y="40">Mapa - Mock (Azul)</text></g></svg>');
+            background-size:cover;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: inset 0 4px 30px rgba(0,0,0,0.6);
+        }
+        .map .loc {
+            position:absolute;
+            bottom:18px;
+            left:18px;
+            background: var(--surface-dark);
+            color:var(--text-white);
+            padding:12px 18px;
+            border-radius:var(--radius-md);
+            display:flex;
+            gap:12px;
+            align-items:center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.7);
+            border:1px solid rgba(255,255,255,0.08);
+        }
+        .loc .pin{
+            width:44px;
+            height:44px;
+            border-radius:10px;
+            background: linear-gradient(180deg,var(--blue-accent), var(--blue-accent-dark));
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:var(--fw-700);
+            color:var(--text-white);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+        }
+        .info-bar {
+            margin-top:20px;
+            display:flex;
+            gap:16px;
+            flex-wrap:wrap;
+            align-items:center;
+        }
+        .info-card{
+            background:rgba(255,255,255,0.03);
+            padding:12px;
+            border-radius:var(--radius-md);
+            border:1px solid rgba(255,255,255,0.08);
+            min-width:160px;
+        }
+        .info-label{ font-size:13px;color:var(--muted-light)}
+
+        /* Sidebar: Descontos */
+        .discounts{
+            display:flex;
+            gap:12px;
+            margin-top:16px;
+            flex-wrap:wrap;
+        }
+        .discount-card{
+            background: rgba(255,255,255,0.05);
+            border-radius:var(--radius-md);
+            padding:14px;
+            display:flex;
+            gap:12px;
+            align-items:center;
+            flex:1;
+            min-width:160px;
+            border:1px solid rgba(255,255,255,0.08);
+            cursor:pointer;
+            transition: all .2s ease;
+        }
+        .discount-card:hover{
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-2px);
+        }
+        .discount-card.active{
+            background: var(--blue-light);
+            box-shadow: 0 10px 20px var(--blue-light);
+            border-color: var(--blue-accent-dark);
+        }
+        .discount-logo{
+            background: linear-gradient(180deg, var(--blue-accent), var(--blue-accent-dark));
+            width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text-white);
+            font-weight:var(--fw-700);border:1px solid rgba(255,255,255,0.02);
+        }
+        .discount-percent{ margin-left:auto; color:var(--blue-accent); font-weight:var(--fw-700);}
+
+        /* Controles de Data/Hora */
+        .controls {
+            margin-top:20px;
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap:16px;
+        }
+        .control-card{
+            background:rgba(255,255,255,0.05);
+            border-radius:var(--radius-md);
+            padding:14px;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+        .select{
+            width:100%;
+            padding:12px 14px;
+            border-radius:10px;
+            background:var(--bg-dark);
+            border:1px solid rgba(255,255,255,0.1);
+            color:var(--text-white);
+            outline:none;
+            font-size:15px;
+            cursor:pointer;
+            appearance: none; /* Remove seta padrão em selects */
+            transition: border-color .15s ease;
+        }
+        .select:hover{ border-color: var(--blue-accent);}
+
+        /* Calendar */
+        .calendar {
+            margin-top:16px;
+            background: var(--surface-dark);
+            border-radius:var(--radius-md);
+            padding:16px;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+        .cal-head{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .cal-month{ font-weight:var(--fw-700); font-size:17px; color:var(--text-white);}
+        .cal-btn{
+            background:var(--surface-dark);
+            border:1px solid rgba(255,255,255,0.1);
+            color:var(--muted-light);
+            width:30px;height:30px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:18px;
+            transition: all .15s ease;
+        }
+        .cal-btn:hover{ background: rgba(255,255,255,0.08); color:var(--text-white);}
+
+        .weekdays{ display:grid; grid-template-columns: repeat(7,1fr); gap:6px; margin-top:12px; color:var(--muted-light); font-size:14px; text-align:center;}
+        .days{ display:grid; grid-template-columns: repeat(7,1fr); gap:8px; margin-top:8px;}
+        .day{
+            height:42px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:8px;
+            color:var(--muted-light);
+            cursor:pointer;
+            transition: all .15s ease;
+            font-weight:var(--fw-600);
+        }
+        .day:not(.other):hover{ background: rgba(255,255,255,0.08);}
+        .day.other{ opacity:0.3; cursor:default; pointer-events:none;}
+        .day.selected{
+            background: linear-gradient(180deg,var(--blue-accent), var(--blue-accent-dark));
+            color:var(--text-white);
+            font-weight:var(--fw-700);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+        }
+        .day.in-range{
+            background: var(--blue-light);
+            color: var(--text-white);
+        }
+
+        /* Cupom */
+        .coupon-row{
+            margin-top:20px;
+            display:flex;
+            gap:10px;
+            align-items:center;
+        }
+        .coupon-input{
+            flex:1;
+            padding:12px 14px;
+            background:var(--bg-dark);border-radius:10px;border:1px solid rgba(255,255,255,0.1);color:var(--text-white);outline:none;
+        }
+        .apply-btn{
+            background:var(--surface-dark);
+            color:var(--blue-accent);
+            padding:12px 18px;
+            border-radius:10px;
+            border:1px solid var(--blue-light);
+            cursor:pointer;
+            font-weight:var(--fw-700);
+            transition: background .15s ease;
+        }
+        .apply-btn:hover{ background: var(--blue-light); }
+
+        /* Resumo e Botão de Reserva */
+        .summary{
+            margin-top:24px;
+            background: rgba(255,255,255,0.05);
+            padding:16px;
+            border-radius:var(--radius-md);
+            border:1px solid rgba(255,255,255,0.08);
+        }
+        .price-row{ display:flex; justify-content:space-between; align-items:center; font-weight:var(--fw-700); font-size:18px; margin-bottom:10px;}
+        .total{ font-size:24px; color:var(--blue-accent); font-weight:var(--fw-800);}
+        .reserve-btn{
+            margin-top:16px;
+            width:100%;
+            padding:16px;
+            border-radius:40px;
+            background: linear-gradient(90deg,var(--blue-accent), var(--blue-accent-dark));
+            border:none;
+            color:var(--text-white);
+            font-weight:var(--fw-800);
+            font-size:18px;
+            cursor:pointer;
+            box-shadow: 0 14px 38px rgba(59, 130, 246, 0.25);
+            transition: transform .12s ease, box-shadow .12s ease;
+        }
+        .reserve-btn:hover{ transform: translateY(-3px); box-shadow: 0 20px 50px rgba(59, 130, 246, 0.3);}
+        .hint{ color:var(--muted-light); font-size:13px; margin-top:8px;}
+
+        /* Overlay de Loading (Circular Moderno) */
+        .loading-overlay{
+            position:fixed;
+            inset:0;
+            display:none;
+            align-items:center;
+            justify-content:center;
+            background: rgba(0,0,0,0.8);
+            z-index:1200;
+        }
+        .loading-box{
+            width:160px;height:160px;border-radius:20px;background:var(--surface-dark);display:flex;align-items:center;justify-content:center;flex-direction:column;border:1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.7);
+        }
+        .spinner{
+            width:80px;height:80px;border-radius:50%;
+            border:8px solid rgba(255,255,255,0.1);
+            border-top-color: var(--blue-accent);
+            animation: spin 1s linear infinite;
+            box-shadow: 0 6px 24px var(--blue-light), inset 0 -6px 24px rgba(0,0,0,0.5);
+        }
+        @keyframes spin{ to{ transform: rotate(360deg); }}
+
+        /* Toast (Feedback de Sucesso) */
+        .toast{
+            position:fixed;
+            right:20px;
+            bottom:20px;
+            background: linear-gradient(90deg,var(--blue-accent), var(--blue-accent-dark));
+            color:var(--text-white);
+            padding:14px 20px;
+            border-radius:12px;
+            font-weight:var(--fw-700);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+            transform: translateY(20px);
+            opacity:0;
+            transition: all .28s cubic-bezier(.2,.9,.3,1);
+            z-index:1300;
+        }
+        .toast.show{ transform: translateY(0); opacity:1;}
+
+        /* Responsive */
+        @media (max-width: 980px){
+            .app{ grid-template-columns: 1fr; padding-bottom:50px;}
+            .map{ height:300px;}
+            .sidebar{ order:2;}
+            .panel{ order:1;}
+            .controls{ grid-template-columns: 1fr;}
+        }
+    </style>
+</head>
+<body>
+
+<div class="app" role="main" aria-labelledby="pageTitle">
+    <section class="panel" aria-label="Detalhes do Estacionamento">
+        <div class="header-title">
+            <div>
+                <div class="crumb" aria-label="Navegação atual">Serviço • Estacionamento</div>
+                <h1 id="pageTitle" class="title">Estacionamento Oficial Pacaembu</h1>
+                <div class="info-bar" style="margin-top:12px;">
+                    <div style="font-size:15px;color:var(--muted-light)">
+                        <span aria-hidden="true">🚶</span> <span style="margin-left:8px">0 min a pé até o local</span>
+                    </div>
+                    <div style="font-size:15px;color:var(--muted-light)"> • Vagas limitadas, reserve já</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="map" role="img" aria-label="Localização do Estacionamento no mapa">
+            <div class="loc" aria-hidden="true">
+                <div class="pin">P</div>
+                <div>
+                    <div style="font-weight:var(--fw-700);font-size:16px">R. Capivari, 217</div>
+                    <div style="color:var(--muted-light);font-size:14px">217 - Pacaembu, São Paulo</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-bar">
+            <div class="info-card">
+                <div class="info-label">Tipo de Vaga</div>
+                <div style="font-weight:var(--fw-700)">Carro, Moto e PCD</div>
+            </div>
+
+            <div class="info-card" style="flex:1">
+                <div class="info-label">Regras de Acesso</div>
+                <div style="font-weight:var(--fw-600);color:var(--muted-light);font-size:14px">Apresente o QR Code da reserva na entrada do evento.</div>
+            </div>
+        </div>
+
+    </section>
+
+    <aside class="sidebar" aria-label="Interface de Reserva">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <h3>Reserve sua vaga <span style="color:var(--blue-accent)">Online</span></h3>
+                <div style="font-size:14px;color:var(--muted-light);margin-top:4px;">Preço exclusivo pelo site • Cancelamento flexível</div>
+            </div>
+            <div style="text-align:right">
+                <div class="info-label">Total estimado</div>
+                <div style="font-weight:var(--fw-800);font-size:20px;color:var(--blue-accent)">R$ <span id="priceTop">160,00</span></div>
+            </div>
+        </div>
+
+        <div class="discounts" role="list" aria-label="Descontos disponíveis">
+            <div class="discount-card" id="dporto" role="listitem" tabindex="0" aria-pressed="false" title="Ativar Desconto Porto Seguro -10%">
+                <div class="discount-logo">PS</div>
+                <div>
+                    <div style="font-weight:var(--fw-600)">Porto Seguro</div>
+                    <div class="info-label">Válido para apólices</div>
+                </div>
+                <div class="discount-percent">-10%</div>
+            </div>
+
+            <div class="discount-card" id="dcupom" role="listitem" title="Aplicar cupom promocional" style="min-width:140px;">
+                <div class="discount-logo">C</div>
+                <div>
+                    <div style="font-weight:var(--fw-600)">Cupom</div>
+                    <div class="info-label">Código promocional</div>
+                </div>
+                <div style="color:var(--muted-light);font-weight:var(--fw-700)">—</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-card" aria-label="Data e Hora de Entrada">
+                <div class="info-label">Entrada</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+                    <button id="openCalIn" class="select" aria-haspopup="dialog" aria-controls="calendar" style="text-align:left">Selecionar data</button>
+                    <select id="timeIn" class="select" aria-label="Hora de entrada"></select>
+                </div>
+            </div>
+
+            <div class="control-card" aria-label="Data e Hora de Saída">
+                <div class="info-label">Saída</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+                    <button id="openCalOut" class="select" aria-haspopup="dialog" aria-controls="calendar" style="text-align:left">Selecionar data</button>
+                    <select id="timeOut" class="select" aria-label="Hora de saída"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar" id="calendar" role="dialog" aria-modal="false" aria-hidden="true" style="margin-top:20px;display:none;">
+            <div class="cal-head">
+                <div class="cal-month" id="calMonthLabel">—</div>
+                <div class="cal-nav">
+                    <button class="cal-btn" id="prevMonth" title="Mês anterior" aria-label="Mês anterior">‹</button>
+                    <button class="cal-btn" id="nextMonth" title="Próximo mês" aria-label="Próximo mês">›</button>
+                </div>
+            </div>
+
+            <div class="weekdays" aria-hidden="true">
+                <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
+            </div>
+
+            <div class="days" id="daysGrid" aria-live="polite"></div>
+
+            <div style="display:flex;gap:10px;margin-top:14px;align-items:center;justify-content:space-between">
+                <div style="font-size:14px;color:var(--muted-light)">Selecione o período de reserva</div>
+                <button id="clearRange" class="cal-btn" style="color:var(--danger);border-color:var(--danger)">Limpar Datas</button>
+            </div>
+        </div>
+
+        <div class="coupon-row">
+            <input id="couponInput" class="coupon-input" placeholder="Código promocional (ex: ZUL10)" aria-label="Código promocional">
+            <button id="applyCoupon" class="apply-btn">Aplicar</button>
+        </div>
+
+        <div class="summary" aria-live="polite">
+            <div class="price-row">
+                <div>Subtotal (<span id="numDays">1</span> dia)</div>
+                <div>R$ <span id="subtotal">160,00</span></div>
+            </div>
+            <div class="price-row" style="margin-bottom:12px;">
+                <div>Descontos</div>
+                <div style="color:var(--blue-accent)">- R$ <span id="discountVal">0,00</span></div>
+            </div>
+            <div class="price-row" style="border-top:1px dashed rgba(255,255,255,0.1);padding-top:12px;margin-top:6px;">
+                <div>Total a Pagar</div>
+                <div class="total">R$ <span id="totalPrice">160,00</span></div>
+            </div>
+
+            <button id="reserveBtn" class="reserve-btn" aria-label="Reservar agora e garantir minha vaga" onclick="window.location.href='confirmação.html'">Garantir Minha Reserva</button>
+            <div class="hint" style="text-align:center;">Pagamento via Pix ou Cartão na hora da reserva.</div>
+        </div>
+
+    </aside>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay" role="status" aria-hidden="true">
+    <div class="loading-box" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <div style="margin-top:16px;font-weight:var(--fw-700);color:var(--muted-light);font-size:14px">Processando a reserva...</div>
+    </div>
+</div>
+
+<div class="toast" id="toast">Reserva confirmada — código #ZUL-12345</div>
+
+<script>
+
+
+
+/* --------------------------------------
+        JavaScript: Lógica e Interatividade
+-------------------------------------- */
+
+// --- Variáveis Globais e Configuração ---
+const basePrice = 160.00; // Preço base por dia
+let activeDiscounts = { porto: false, coupon: 0, couponCode: null };
+let selected = { start: null, end: null, timeIn: "09:00", timeOut: "02:59" }; // Valores padrão
+
+// --- Elementos DOM para Atualização de Preço ---
+const subtotalEl = document.getElementById('subtotal');
+const discountEl = document.getElementById('discountVal');
+const totalEl = document.getElementById('totalPrice');
+const priceTopEl = document.getElementById('priceTop');
+const numDaysEl = document.getElementById('numDays');
+const btnOpenIn = document.getElementById('openCalIn');
+const btnOpenOut = document.getElementById('openCalOut');
+
+// --- Utilitários ---
+function currency(v){
+    return v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function startOfDay(d){ const n = new Date(d); n.setHours(0,0,0,0); return n; }
+function sameDay(a,b){ if(!a || !b) return false; return startOfDay(a).getTime() === startOfDay(b).getTime(); }
+function formatCompactDate(date) {
+    if (!date) return "Selecionar data";
+    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+}
+
+// --- Lógica de Preço ---
+function recalcPrice(){
+    let days = 1;
+    let subtotal = basePrice;
+
+    if(selected.start && selected.end){
+        const msPerDay = 24*60*60*1000;
+
+        const startDate = new Date(selected.start).setHours(12,0,0,0);
+        const endDate = new Date(selected.end).setHours(12,0,0,0);
+
+        days = Math.ceil((endDate - startDate) / msPerDay) + 1;
+        if(days < 1) days = 1;
+
+        subtotal = basePrice * days;
+    }
+
+    // Salva dias no escopo global
+    window.globalDays = days;
+
+    let discount = 0;
+    if(activeDiscounts.porto) discount += subtotal * 0.10;
+    if(activeDiscounts.couponCode === 'ZUL10') discount += subtotal * 0.10;
+    if(activeDiscounts.coupon > 0) discount += activeDiscounts.coupon;
+
+    let total = Math.max(0, subtotal - discount);
+
+    // Salva total globalmente para o botão de reserva
+    window.globalTotal = total;
+
+    subtotalEl.textContent = currency(subtotal);
+    discountEl.textContent = currency(discount);
+    totalEl.textContent = currency(total);
+    priceTopEl.textContent = currency(total);
+    numDaysEl.textContent = days;
+}
+
+// --- Funções de Inicialização ---
+function initializeFromUrl(){
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('eventId') || 'P-488';
+    const localId = urlParams.get('localId') || 'E-32';
+
+    const entradaISO = urlParams.get('entrada');
+    const saidaISO = urlParams.get('saida');
+    const entradaRaw = urlParams.get('entrada');
+
+    if (entradaISO && saidaISO) {
+        const entryDate = new Date(entradaISO);
+        const exitDate = new Date(saidaISO);
+
+        if (!isNaN(entryDate) && !isNaN(exitDate)) {
+            selected.start = startOfDay(entryDate);
+            selected.end = startOfDay(exitDate);
+
+            selected.timeIn = entryDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
+            selected.timeOut = exitDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
+
+            btnOpenIn.textContent = formatCompactDate(entryDate);
+            btnOpenOut.textContent = formatCompactDate(exitDate);
+
+            document.getElementById('timeIn').value = selected.timeIn;
+            document.getElementById('timeOut').value = selected.timeOut;
+        }
+    }
+
+    if (entradaRaw && !entradaISO) {
+        const d = new Date(entradaRaw);
+        selected.start = d;
+        btnOpenIn.textContent = formatCompactDate(d);
+    }
+
+    recalcPrice();
+
+    window.globalEventId = eventId;
+    window.globalLocalId = localId;
+}
+
+// --- Lógica de Descontos ---
+const dPorto = document.getElementById('dporto');
+dPorto.addEventListener('click', ()=> {
+    activeDiscounts.porto = !activeDiscounts.porto;
+    dPorto.classList.toggle('active', activeDiscounts.porto);
+    dPorto.setAttribute('aria-pressed', activeDiscounts.porto ? 'true' : 'false');
+    recalcPrice();
+});
+
+document.getElementById('applyCoupon').addEventListener('click', ()=>{
+    const code = document.getElementById('couponInput').value.trim().toUpperCase();
+    activeDiscounts.coupon = 0;
+    activeDiscounts.couponCode = null;
+
+    if(!code){
+        alert('Informe um código promocional.');
+    } else if(code === 'ZUL10'){
+        activeDiscounts.couponCode = 'ZUL10';
+        alert('Cupom ZUL10 aplicado: 10% de desconto adicional.');
+    } else if(code === 'ZUL20'){
+        activeDiscounts.coupon = 20.00;
+        alert('Cupom ZUL20 aplicado: R$20,00 de desconto fixo.');
+    } else {
+        alert('Cupom inválido ou expirado.');
+    }
+    recalcPrice();
+});
+
+// --- Seleção de Horários ---
+function populateTimes(){
+    const timeIn = document.getElementById('timeIn');
+    const timeOut = document.getElementById('timeOut');
+    const times = [];
+
+    for(let h=0; h<24; h++){
+        for(let m=0; m<60; m+=30){
+            times.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+        }
+    }
+
+    times.forEach(t => {
+        const o1 = document.createElement('option'); o1.value = t; o1.textContent = t;
+        const o2 = document.createElement('option'); o2.value = t; o2.textContent = t;
+        timeIn.appendChild(o1);
+        timeOut.appendChild(o2);
+    });
+
+    timeIn.value = selected.timeIn;
+    timeOut.value = selected.timeOut;
+
+    timeIn.addEventListener('change', ()=> selected.timeIn = timeIn.value);
+    timeOut.addEventListener('change', ()=> selected.timeOut = timeOut.value);
+}
+populateTimes();
+
+// --- Calendário ---
+const calendarEl = document.getElementById('calendar');
+const daysGrid = document.getElementById('daysGrid');
+const calMonthLabel = document.getElementById('calMonthLabel');
+let view = new Date();
+let selecting = null;
+
+const clearRangeBtn = document.getElementById('clearRange');
+
+btnOpenIn.addEventListener('click', ()=> openCalendar('in'));
+btnOpenOut.addEventListener('click', ()=> openCalendar('out'));
+
+function openCalendar(which){
+    selecting = which;
+    calendarEl.style.display = 'block';
+    calendarEl.setAttribute('aria-hidden','false');
+
+    if(which === 'in' && selected.start) view = new Date(selected.start);
+    if(which === 'out' && selected.end) view = new Date(selected.end);
+
+    calendarEl.scrollIntoView({behavior:'smooth'});
+    renderCalendar();
+}
+
+function closeCalendar(){
+    selecting = null;
+    calendarEl.style.display = 'none';
+    calendarEl.setAttribute('aria-hidden','true');
+}
+
+document.getElementById('prevMonth').addEventListener('click', ()=>{ view.setMonth(view.getMonth()-1); renderCalendar(); });
+document.getElementById('nextMonth').addEventListener('click', ()=>{ view.setMonth(view.getMonth()+1); renderCalendar(); });
+
+clearRangeBtn.addEventListener('click', ()=>{
+    selected.start = null;
+    selected.end = null;
+    btnOpenIn.textContent = "Selecionar data";
+    btnOpenOut.textContent = "Selecionar data";
+    recalcPrice();
+    renderCalendar();
+    closeCalendar();
+});
+
+function renderCalendar(){
+    daysGrid.innerHTML = '';
+
+    const year = view.getFullYear();
+    const month = view.getMonth();
+    const today = startOfDay(new Date());
+
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month+1, 0);
+
+    calMonthLabel.textContent = first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+
+    const startDay = first.getDay();
+    for(let i=0; i<startDay; i++){
+        const prev = new Date(first);
+        prev.setDate(prev.getDate() - (startDay - i));
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day other';
+        dayEl.textContent = prev.getDate();
+        daysGrid.appendChild(dayEl);
+    }
+
+    for(let i=1; i<=last.getDate(); i++){
+        const date = startOfDay(new Date(year, month, i));
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day';
+        dayEl.textContent = i;
+        dayEl.dataset.date = date.toISOString();
+
+        if(selected.start && selected.end){
+            if(date > selected.start && date < selected.end){
+                dayEl.classList.add('in-range');
+            }
+        }
+        if(sameDay(date, selected.start)) dayEl.classList.add('selected');
+        if(sameDay(date, selected.end)) dayEl.classList.add('selected');
+
+        if(date < today && !sameDay(date,today)){
+            dayEl.classList.add('other');
+            dayEl.style.cursor = 'not-allowed';
+        } else {
+            dayEl.addEventListener('click', ()=> handleDayClick(date, dayEl));
+        }
+
+        daysGrid.appendChild(dayEl);
+    }
+}
+
+function handleDayClick(date){
+    if (selecting === 'in') {
+        selected.start = date;
+        if(selected.end && selected.end < selected.start){
+            selected.end = null;
+        }
+        btnOpenIn.textContent = formatCompactDate(date);
+    } 
+    else if (selecting === 'out') {
+        if(!selected.start || date >= selected.start){
+            selected.end = date;
+            btnOpenOut.textContent = formatCompactDate(date);
+        } else {
+            alert("A data de saída não pode ser anterior à data de entrada.");
+            return;
+        }
+    }
+
+    recalcPrice();
+    renderCalendar();
+
+    if(selected.start && selected.end){
+        closeCalendar();
+    }
+}
+
+/* =======================================================================
+        🔵 NOVA LÓGICA DE CONFIRMAÇÃO – COMPLETA E ATUALIZADA
+======================================================================= */
+document.getElementById('reserveBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    showLoading();
+
+    if (!selected.start || !selected.end) {
+        hideLoading();
+        alert('Selecione as datas de Entrada e Saída antes de prosseguir.');
+        return;
+    }
+
+    const entradaStrLocal = `${selected.start.toISOString().substring(0, 10)}T${selected.timeIn}:00`;
+    const saidaStrLocal = `${selected.end.toISOString().substring(0, 10)}T${selected.timeOut}:00`;
+
+    const entrada = new Date(entradaStrLocal);
+    const saida = new Date(saidaStrLocal);
+
+    if (saida <= entrada) {
+        hideLoading();
+        alert('A data/hora de Saída deve ser posterior à de Entrada.');
+        return;
+    }
+
+    const entradaISO = entrada.toISOString();
+    const saidaISO = saida.toISOString();
+
+    const params = new URLSearchParams();
+    params.append('eventId', window.globalEventId);
+    params.append('localId', window.globalLocalId);
+    params.append('entrada', entradaISO);
+    params.append('saida', saidaISO);
+
+    // 🔵 adicionados agora
+    params.append('total', window.globalTotal.toFixed(2));
+    params.append('dias', window.globalDays);
+
+    const redirectUrl = `confirmacao.html?${params.toString()}`;
+
+    setTimeout(() => {
+        hideLoading();
+        showToast('Reserva confirmada — código #ZUL-12345');
+        console.log('Redirecionando para:', redirectUrl);
+        // window.location.href = redirectUrl;
+    }, 1500);
+});
+
+// --- UI Feedback ---
+const loadingOverlay = document.getElementById('loadingOverlay');
+function showLoading(){
+    loadingOverlay.style.display = 'flex';
+}
+function hideLoading(){
+    loadingOverlay.style.display = 'none';
+}
+
+const toastEl = document.getElementById('toast');
+function showToast(message){
+    toastEl.textContent = message;
+    toastEl.classList.add('show');
+    setTimeout(() => toastEl.classList.remove('show'), 4000);
+}
+
+// --- Inicialização ---
+initializeFromUrl();
+renderCalendar();
+
+</script>
+</body>
+</html>
