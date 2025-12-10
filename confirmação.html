@@ -87,7 +87,7 @@
      <div class="preco-box">
     <div class="preco-item">
         <span>Valor Final</span>
-        <span id="valorFinal">R$ --,--</span>
+        <span id="valorFinal1">R$ --,--</span>
     </div>
 
     <div class="preco-item">
@@ -97,7 +97,7 @@
 
     <div class="preco-item total">
         <span>Total a Pagar</span>
-        <span id="valorFinal">R$ --,--</span>
+        <span id="valorFinal2">R$ --,--</span>
     </div>
 </div>
 
@@ -122,6 +122,18 @@
     mobileMenu.classList.toggle("open");
   });
 </script>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+    const subtotal   = localStorage.getItem("reserva_subtotal") || "--,--";
+    const total      = localStorage.getItem("reserva_total") || "--,--";
+
+    // Atualizar valores na tela
+    document.getElementById("valorFinal1").innerText = "R$ " + subtotal;
+    document.getElementById("valorFinal2").innerText = "R$ " + total;
+});
+</script>
+
 
 
 
