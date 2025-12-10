@@ -485,7 +485,7 @@
                 <div class="total">R$ <span id="totalPrice">160,00</span></div>
             </div>
 
-            <button id="reserveBtn" class="reserve-btn" aria-label="Reservar agora e garantir minha vaga" onclick="window.location.href='confirmação.html'">Garantir Minha Reserva</button>
+            <button id="reserveBtn" class="reserve-btn">Garantir Minha Reserva</button>
             <div class="hint" style="text-align:center;">Pagamento via Pix ou Cartão na hora da reserva.</div>
         </div>
 
@@ -504,353 +504,427 @@
 <script>
 
 
+/* =================================================================================
+   ex.html — Lógica consolidada: leitura da URL, calendário, horários, cálculo e
+   redirecionamento para confirmacao.html com todos os parâmetros necessários.
+   ================================================================================= */
 
-/* --------------------------------------
-        JavaScript: Lógica e Interatividade
--------------------------------------- */
+(function () {
+  // --- Configuração / Estado ---
+  const basePrice = 160.00;
+  let activeDiscounts = { porto: false, coupon: 0, couponCode: null };
+  let selected = { start: null, end: null, timeIn: "09:00", timeOut: "02:59" };
+  window.globalDays = 1;
+  window.globalTotal = basePrice;
+  window.globalEventId = null;
+  window.globalLocalId = null;
+  window.globalTitle = null;
+  window.globalImg = null;
 
-// --- Variáveis Globais e Configuração ---
-const basePrice = 160.00; // Preço base por dia
-let activeDiscounts = { porto: false, coupon: 0, couponCode: null };
-let selected = { start: null, end: null, timeIn: "09:00", timeOut: "02:59" }; // Valores padrão
+  // --- DOM refs (expected in your HTML) ---
+  const subtotalEl = document.getElementById('subtotal');
+  const discountEl = document.getElementById('discountVal');
+  const totalEl = document.getElementById('totalPrice');
+  const priceTopEl = document.getElementById('priceTop');
+  const numDaysEl = document.getElementById('numDays');
+  const btnOpenIn = document.getElementById('openCalIn');
+  const btnOpenOut = document.getElementById('openCalOut');
+  const calendarEl = document.getElementById('calendar');
+  const daysGrid = document.getElementById('daysGrid');
+  const calMonthLabel = document.getElementById('calMonthLabel');
+  const clearRangeBtn = document.getElementById('clearRange');
+  const dPorto = document.getElementById('dporto');
 
-// --- Elementos DOM para Atualização de Preço ---
-const subtotalEl = document.getElementById('subtotal');
-const discountEl = document.getElementById('discountVal');
-const totalEl = document.getElementById('totalPrice');
-const priceTopEl = document.getElementById('priceTop');
-const numDaysEl = document.getElementById('numDays');
-const btnOpenIn = document.getElementById('openCalIn');
-const btnOpenOut = document.getElementById('openCalOut');
+  // --- Helpers ---
+  function currency(v){ return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function startOfDay(d){ const n = new Date(d); n.setHours(0,0,0,0); return n; }
+  function sameDay(a,b){ if(!a || !b) return false; return startOfDay(a).getTime() === startOfDay(b).getTime(); }
+  function formatCompactDate(date) { if (!date) return "Selecionar data"; return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }); }
 
-// --- Utilitários ---
-function currency(v){
-    return v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-}
-function startOfDay(d){ const n = new Date(d); n.setHours(0,0,0,0); return n; }
-function sameDay(a,b){ if(!a || !b) return false; return startOfDay(a).getTime() === startOfDay(b).getTime(); }
-function formatCompactDate(date) {
-    if (!date) return "Selecionar data";
-    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-}
+  // --- Price calc (keeps original noon approach) ---
+  function recalcPrice(){
+    let days = 1;
+    let subtotal = basePrice;
 
-// --- Lógica de Preço ---
-function recalcPrice(){
-    let days = 1;
-    let subtotal = basePrice;
+    if(selected.start && selected.end){
+        const msPerDay = 24*60*60*1000;
+        const startDate = new Date(selected.start); startDate.setHours(12,0,0,0);
+        const endDate = new Date(selected.end); endDate.setHours(12,0,0,0);
+        days = Math.ceil((endDate - startDate) / msPerDay) + 1;
+        if(days < 1) days = 1;
+        subtotal = basePrice * days;
+    }
 
-    if(selected.start && selected.end){
-        const msPerDay = 24*60*60*1000;
+    window.globalDays = days;
 
-        const startDate = new Date(selected.start).setHours(12,0,0,0);
-        const endDate = new Date(selected.end).setHours(12,0,0,0);
+    let discount = 0;
+    if(activeDiscounts.porto) discount += subtotal * 0.10;
+    if(activeDiscounts.couponCode === 'ZUL10') discount += subtotal * 0.10;
+    if(activeDiscounts.coupon > 0) discount += activeDiscounts.coupon;
 
-        days = Math.ceil((endDate - startDate) / msPerDay) + 1;
-        if(days < 1) days = 1;
+    let total = Math.max(0, subtotal - discount);
 
-        subtotal = basePrice * days;
-    }
+    window.globalTotal = total;
 
-    // Salva dias no escopo global
-    window.globalDays = days;
+    if(subtotalEl) subtotalEl.textContent = currency(subtotal);
+    if(discountEl) discountEl.textContent = currency(discount);
+    if(totalEl) totalEl.textContent = currency(total);
+    if(priceTopEl) priceTopEl.textContent = currency(total);
+    if(numDaysEl) numDaysEl.textContent = days;
+  }
 
-    let discount = 0;
-    if(activeDiscounts.porto) discount += subtotal * 0.10;
-    if(activeDiscounts.couponCode === 'ZUL10') discount += subtotal * 0.10;
-    if(activeDiscounts.coupon > 0) discount += activeDiscounts.coupon;
+  // --- URL parsing helpers ---
+  function parseDateParam(raw){
+    if(!raw) return null;
+    if(/^\d{4}-\d{2}-\d{2}$/.test(raw)){
+        const d = new Date(raw + "T12:00:00");
+        if(!isNaN(d)) return d;
+    }
+    const tryIso = new Date(raw);
+    if (!isNaN(tryIso)) return tryIso;
+    return null;
+  }
 
-    let total = Math.max(0, subtotal - discount);
+  function getUrlParams(){
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      eventId: urlParams.get('eventId'),
+      localId: urlParams.get('localId'),
+      title: urlParams.get('title'),
+      img: urlParams.get('img'),
+      entrada: urlParams.get('entrada'),
+      saida: urlParams.get('saida'),
+    };
+  }
 
-    // Salva total globalmente para o botão de reserva
-    window.globalTotal = total;
+  // --- Initialize from URL ---
+  function initializeFromUrl(){
+    const p = getUrlParams();
+    window.globalEventId = p.eventId || null;
+    window.globalLocalId = p.localId || null;
+    window.globalTitle = p.title ? decodeURIComponent(p.title) : null;
+    window.globalImg = p.img ? decodeURIComponent(p.img) : null;
 
-    subtotalEl.textContent = currency(subtotal);
-    discountEl.textContent = currency(discount);
-    totalEl.textContent = currency(total);
-    priceTopEl.textContent = currency(total);
-    numDaysEl.textContent = days;
-}
+    // if title or img available, you may want to render them in the UI; we'll update pageTitle if present
+    const pageTitle = document.getElementById('pageTitle');
+    if(pageTitle && window.globalTitle) pageTitle.textContent = window.globalTitle;
 
-// --- Funções de Inicialização ---
-function initializeFromUrl(){
-    const urlParams = new URLSearchParams(window.location.search);
-    const eventId = urlParams.get('eventId') || 'P-488';
-    const localId = urlParams.get('localId') || 'E-32';
+    // entrada may be yyyy-mm-dd or ISO; prefer parseDateParam
+    if(p.entrada){
+        const entradaDate = parseDateParam(p.entrada);
+        if(entradaDate){
+            selected.start = startOfDay(entradaDate);
+            if(p.entrada.length > 10){
+                selected.timeIn = entradaDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
+            }
+            btnOpenIn && (btnOpenIn.textContent = formatCompactDate(entradaDate));
+            const timeInEl = document.getElementById('timeIn');
+            if(timeInEl) timeInEl.value = selected.timeIn;
+        }
+    }
 
-    const entradaISO = urlParams.get('entrada');
-    const saidaISO = urlParams.get('saida');
-    const entradaRaw = urlParams.get('entrada');
+    if(p.saida){
+        const saidaDate = parseDateParam(p.saida);
+        if(saidaDate){
+            selected.end = startOfDay(saidaDate);
+            if(p.saida.length > 10){
+                selected.timeOut = saidaDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
+            }
+            btnOpenOut && (btnOpenOut.textContent = formatCompactDate(saidaDate));
+            const timeOutEl = document.getElementById('timeOut');
+            if(timeOutEl) timeOutEl.value = selected.timeOut;
+        }
+    }
 
-    if (entradaISO && saidaISO) {
-        const entryDate = new Date(entradaISO);
-        const exitDate = new Date(saidaISO);
+    recalcPrice();
+  }
 
-        if (!isNaN(entryDate) && !isNaN(exitDate)) {
-            selected.start = startOfDay(entryDate);
-            selected.end = startOfDay(exitDate);
+  // --- Discounts handlers ---
+  if(dPorto){
+    dPorto.addEventListener('click', ()=> {
+        activeDiscounts.porto = !activeDiscounts.porto;
+        dPorto.classList.toggle('active', activeDiscounts.porto);
+        dPorto.setAttribute('aria-pressed', activeDiscounts.porto ? 'true' : 'false');
+        recalcPrice();
+    });
+  }
 
-            selected.timeIn = entryDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
-            selected.timeOut = exitDate.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',hour12:false});
+  document.getElementById('applyCoupon')?.addEventListener('click', ()=> {
+    const code = document.getElementById('couponInput').value.trim().toUpperCase();
+    activeDiscounts.coupon = 0;
+    activeDiscounts.couponCode = null;
 
-            btnOpenIn.textContent = formatCompactDate(entryDate);
-            btnOpenOut.textContent = formatCompactDate(exitDate);
+    if(!code){
+        alert('Informe um código promocional.');
+    } else if(code === 'ZUL10'){
+        activeDiscounts.couponCode = 'ZUL10';
+        alert('Cupom ZUL10 aplicado: 10% de desconto adicional.');
+    } else if(code === 'ZUL20'){
+        activeDiscounts.coupon = 20.00;
+        alert('Cupom ZUL20 aplicado: R$20,00 de desconto fixo.');
+    } else {
+        alert('Cupom inválido ou expirado.');
+    }
+    recalcPrice();
+  });
 
-            document.getElementById('timeIn').value = selected.timeIn;
-            document.getElementById('timeOut').value = selected.timeOut;
-        }
-    }
+  // --- Time selectors population ---
+  function populateTimes(){
+    const timeIn = document.getElementById('timeIn');
+    const timeOut = document.getElementById('timeOut');
+    if(!timeIn || !timeOut) return;
+    const times = [];
+    for(let h=0; h<24; h++){
+        for(let m=0; m<60; m+=30){
+            times.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+        }
+    }
+    times.forEach(t => {
+        const o1 = document.createElement('option'); o1.value = t; o1.textContent = t;
+        const o2 = document.createElement('option'); o2.value = t; o2.textContent = t;
+        timeIn.appendChild(o1);
+        timeOut.appendChild(o2);
+    });
 
-    if (entradaRaw && !entradaISO) {
-        const d = new Date(entradaRaw);
-        selected.start = d;
-        btnOpenIn.textContent = formatCompactDate(d);
-    }
+    timeIn.value = selected.timeIn;
+    timeOut.value = selected.timeOut;
+    timeIn.addEventListener('change', ()=> { selected.timeIn = timeIn.value; recalcPrice(); });
+    timeOut.addEventListener('change', ()=> { selected.timeOut = timeOut.value; recalcPrice(); });
+  }
 
-    recalcPrice();
+  // --- Calendar (render / selection) ---
+  let view = new Date();
+  let selecting = null;
 
-    window.globalEventId = eventId;
-    window.globalLocalId = localId;
-}
+  btnOpenIn?.addEventListener('click', ()=> openCalendar('in'));
+  btnOpenOut?.addEventListener('click', ()=> openCalendar('out'));
+  document.getElementById('prevMonth')?.addEventListener('click', ()=>{ view.setMonth(view.getMonth()-1); renderCalendar(); });
+  document.getElementById('nextMonth')?.addEventListener('click', ()=>{ view.setMonth(view.getMonth()+1); renderCalendar(); });
 
-// --- Lógica de Descontos ---
-const dPorto = document.getElementById('dporto');
-dPorto.addEventListener('click', ()=> {
-    activeDiscounts.porto = !activeDiscounts.porto;
-    dPorto.classList.toggle('active', activeDiscounts.porto);
-    dPorto.setAttribute('aria-pressed', activeDiscounts.porto ? 'true' : 'false');
-    recalcPrice();
+  clearRangeBtn?.addEventListener('click', ()=> {
+    selected.start = null;
+    selected.end = null;
+    btnOpenIn.textContent = "Selecionar data";
+    btnOpenOut.textContent = "Selecionar data";
+    recalcPrice();
+    renderCalendar();
+    closeCalendar();
+  });
+
+  function openCalendar(which){
+    selecting = which;
+    if(!calendarEl) return;
+    calendarEl.style.display = 'block';
+    calendarEl.setAttribute('aria-hidden','false');
+    if(which === 'in' && selected.start) view = new Date(selected.start);
+    if(which === 'out' && selected.end) view = new Date(selected.end);
+    calendarEl.scrollIntoView({behavior:'smooth'});
+    renderCalendar();
+  }
+  function closeCalendar(){
+    selecting = null;
+    if(!calendarEl) return;
+    calendarEl.style.display = 'none';
+    calendarEl.setAttribute('aria-hidden','true');
+  }
+
+  function renderCalendar(){
+    if(!daysGrid) return;
+    daysGrid.innerHTML = '';
+    const year = view.getFullYear();
+    const month = view.getMonth();
+    const today = startOfDay(new Date());
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month+1, 0);
+    calMonthLabel.textContent = first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    const startDay = first.getDay();
+    for(let i=0; i<startDay; i++){
+        const prev = new Date(first);
+        prev.setDate(prev.getDate() - (startDay - i));
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day other';
+        dayEl.textContent = prev.getDate();
+        daysGrid.appendChild(dayEl);
+    }
+    for(let i=1; i<=last.getDate(); i++){
+        const date = startOfDay(new Date(year, month, i));
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day';
+        dayEl.textContent = i;
+        dayEl.dataset.date = date.toISOString();
+        if(selected.start && selected.end){
+            if(date > selected.start && date < selected.end) dayEl.classList.add('in-range');
+        }
+        if(sameDay(date, selected.start)) dayEl.classList.add('selected');
+        if(sameDay(date, selected.end)) dayEl.classList.add('selected');
+        if(date < today && !sameDay(date,today)){
+            dayEl.classList.add('other');
+            dayEl.style.cursor = 'not-allowed';
+        } else {
+            dayEl.addEventListener('click', ()=> handleDayClick(date, dayEl));
+        }
+        daysGrid.appendChild(dayEl);
+    }
+  }
+
+  function handleDayClick(date){
+    if (selecting === 'in') {
+        selected.start = date;
+        if(selected.end && selected.end < selected.start) selected.end = null;
+        btnOpenIn.textContent = formatCompactDate(date);
+    } else if (selecting === 'out') {
+        if(!selected.start || date >= selected.start){
+            selected.end = date;
+            btnOpenOut.textContent = formatCompactDate(date);
+        } else {
+            alert("A data de saída não pode ser anterior à data de entrada.");
+            return;
+        }
+    }
+    recalcPrice();
+    renderCalendar();
+    if(selected.start && selected.end) closeCalendar();
+  }
+
+  // --- Reserve / finalize (build URL and redirect to confirmacao.html) ---
+  // Versão Original do usuário (adicionada aqui)
+  function finalizarReserva() {
+    // --- VALIDAR DATAS E HORÁRIOS ---
+    if (!selected.start || !selected.end) {
+        alert("Selecione a data de entrada e saída.");
+        return;
+    }
+
+    const timeIn = document.getElementById("timeIn").value;
+    const timeOut = document.getElementById("timeOut").value;
+
+    if (!timeIn || !timeOut) {
+        alert("Selecione o horário de entrada e saída.");
+        return;
+    }
+
+    // Recalcula o preço para garantir que os valores de subtotal, desconto e total estejam atualizados
+    recalcPrice();
+    // OBS: O código anterior do bloco tinha uma lógica de total diferente. Verifique se os dados abaixo
+    // (subtotal, descontos, total, dias) estão realmente sendo preenchidos no HTML.
+
+    // --- MONTAR OBJETO PARA ENVIAR À TELA DE CONFIRMAÇÃO ---
+    const reserva = {
+        // Converte a data selecionada (string ISO com T00:00:00.000Z) para um formato yyyy-mm-ddT HH:MM:00
+        entrada: `${selected.start.toISOString().split('T')[0]}T${timeIn}:00`,
+        saida: `${selected.end.toISOString().split('T')[0]}T${timeOut}:00`,
+        subtotal: document.getElementById("subtotal").innerText,
+        descontos: document.getElementById("discountVal").innerText,
+        total: document.getElementById("totalPrice").innerText,
+        dias: document.getElementById("numDays").innerText,
+        cupom: activeDiscounts.couponCode || "",
+        porto: activeDiscounts.porto ? "sim" : "nao"
+    };
+
+    // Incluindo o tipo de vaga, já que a versão anterior incluía e pode ser necessário
+    const vagaEl = document.getElementById('vagaType');
+    const vaga = vagaEl ? vagaEl.value : 'Normal';
+    reserva.tipoVaga = vaga;
+
+
+    // --- OVERLAY DE LOADING ---
+    const overlay = document.getElementById("loadingOverlay");
+    if(overlay) overlay.style.display = "flex";
+
+
+    // --- SIMULAR PROCESSAMENTO ---
+    setTimeout(() => {
+        // Criar querystring
+        const params = new URLSearchParams(reserva).toString();
+
+        // Redirecionar
+        window.location.href = "confirmação.html?" + params;
+
+    }, 1100);
+  }
+
+
+  // --- UI: inject vagaType select if not present ---
+  function ensureVagaSelector(){
+    if(document.getElementById('vagaType')) return;
+    const controls = document.querySelector('.controls');
+    if(!controls) return;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'control-card';
+    wrapper.setAttribute('aria-label','Tipo de Vaga');
+    wrapper.innerHTML = `
+      <div class="info-label">Tipo de Vaga</div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <select id="vagaType" class="select" aria-label="Tipo de vaga">
+          <option value="Normal">Normal</option>
+          <option value="PCD">PCD</option>
+        </select>
+      </div>
+    `;
+    // append at the end of controls
+    controls.appendChild(wrapper);
+  }
+
+  // --- Small helper to make sure we don't error out if an expected element is missing ---
+  function safeInit(){
+    populateTimes();
+    ensureVagaSelector();
+    initializeFromUrl();
+    renderCalendar();
+    recalcPrice();
+  }
+
+  // --- Populate times function declared earlier dependency (re-declaration) ---
+  function populateTimes(){
+    const timeIn = document.getElementById('timeIn');
+    const timeOut = document.getElementById('timeOut');
+    if(!timeIn || !timeOut) return;
+    // clear existing
+    timeIn.innerHTML = '';
+    timeOut.innerHTML = '';
+    for(let h=0; h<24; h++){
+      for(let m=0; m<60; m+=30){
+        const t = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+        const o1 = document.createElement('option'); o1.value = t; o1.textContent = t;
+        const o2 = document.createElement('option'); o2.value = t; o2.textContent = t;
+        timeIn.appendChild(o1);
+        timeOut.appendChild(o2);
+      }
+    }
+    timeIn.value = selected.timeIn;
+    timeOut.value = selected.timeOut;
+    timeIn.addEventListener('change', ()=> selected.timeIn = timeIn.value);
+    timeOut.addEventListener('change', ()=> selected.timeOut = timeOut.value);
+  }
+
+  // Event Listener (Adicionado aqui conforme sua solicitação)
+  document.getElementById("reserveBtn").addEventListener("click", finalizarReserva);
+
+  // --- Start ---
+  safeInit();
+
+})();
+</script>
+
+
+<script>
+document.getElementById("reserveBtn").addEventListener("click", function () {
+
+    const subtotal   = document.getElementById("subtotal").innerText;
+    const descontos  = document.getElementById("discountVal").innerText;
+    const totalFinal = document.getElementById("totalPrice").innerText;
+
+    // Salvar no localStorage
+    localStorage.setItem("reserva_subtotal", subtotal);
+    localStorage.setItem("reserva_descontos", descontos);
+    localStorage.setItem("reserva_total", totalFinal);
+
+    // Redirecionar para confirmação
+    window.location.href = "confirmação.html";
 });
+</script>
 
-document.getElementById('applyCoupon').addEventListener('click', ()=>{
-    const code = document.getElementById('couponInput').value.trim().toUpperCase();
-    activeDiscounts.coupon = 0;
-    activeDiscounts.couponCode = null;
 
-    if(!code){
-        alert('Informe um código promocional.');
-    } else if(code === 'ZUL10'){
-        activeDiscounts.couponCode = 'ZUL10';
-        alert('Cupom ZUL10 aplicado: 10% de desconto adicional.');
-    } else if(code === 'ZUL20'){
-        activeDiscounts.coupon = 20.00;
-        alert('Cupom ZUL20 aplicado: R$20,00 de desconto fixo.');
-    } else {
-        alert('Cupom inválido ou expirado.');
-    }
-    recalcPrice();
-});
-
-// --- Seleção de Horários ---
-function populateTimes(){
-    const timeIn = document.getElementById('timeIn');
-    const timeOut = document.getElementById('timeOut');
-    const times = [];
-
-    for(let h=0; h<24; h++){
-        for(let m=0; m<60; m+=30){
-            times.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
-        }
-    }
-
-    times.forEach(t => {
-        const o1 = document.createElement('option'); o1.value = t; o1.textContent = t;
-        const o2 = document.createElement('option'); o2.value = t; o2.textContent = t;
-        timeIn.appendChild(o1);
-        timeOut.appendChild(o2);
-    });
-
-    timeIn.value = selected.timeIn;
-    timeOut.value = selected.timeOut;
-
-    timeIn.addEventListener('change', ()=> selected.timeIn = timeIn.value);
-    timeOut.addEventListener('change', ()=> selected.timeOut = timeOut.value);
-}
-populateTimes();
-
-// --- Calendário ---
-const calendarEl = document.getElementById('calendar');
-const daysGrid = document.getElementById('daysGrid');
-const calMonthLabel = document.getElementById('calMonthLabel');
-let view = new Date();
-let selecting = null;
-
-const clearRangeBtn = document.getElementById('clearRange');
-
-btnOpenIn.addEventListener('click', ()=> openCalendar('in'));
-btnOpenOut.addEventListener('click', ()=> openCalendar('out'));
-
-function openCalendar(which){
-    selecting = which;
-    calendarEl.style.display = 'block';
-    calendarEl.setAttribute('aria-hidden','false');
-
-    if(which === 'in' && selected.start) view = new Date(selected.start);
-    if(which === 'out' && selected.end) view = new Date(selected.end);
-
-    calendarEl.scrollIntoView({behavior:'smooth'});
-    renderCalendar();
-}
-
-function closeCalendar(){
-    selecting = null;
-    calendarEl.style.display = 'none';
-    calendarEl.setAttribute('aria-hidden','true');
-}
-
-document.getElementById('prevMonth').addEventListener('click', ()=>{ view.setMonth(view.getMonth()-1); renderCalendar(); });
-document.getElementById('nextMonth').addEventListener('click', ()=>{ view.setMonth(view.getMonth()+1); renderCalendar(); });
-
-clearRangeBtn.addEventListener('click', ()=>{
-    selected.start = null;
-    selected.end = null;
-    btnOpenIn.textContent = "Selecionar data";
-    btnOpenOut.textContent = "Selecionar data";
-    recalcPrice();
-    renderCalendar();
-    closeCalendar();
-});
-
-function renderCalendar(){
-    daysGrid.innerHTML = '';
-
-    const year = view.getFullYear();
-    const month = view.getMonth();
-    const today = startOfDay(new Date());
-
-    const first = new Date(year, month, 1);
-    const last = new Date(year, month+1, 0);
-
-    calMonthLabel.textContent = first.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
-
-    const startDay = first.getDay();
-    for(let i=0; i<startDay; i++){
-        const prev = new Date(first);
-        prev.setDate(prev.getDate() - (startDay - i));
-        const dayEl = document.createElement('div');
-        dayEl.className = 'day other';
-        dayEl.textContent = prev.getDate();
-        daysGrid.appendChild(dayEl);
-    }
-
-    for(let i=1; i<=last.getDate(); i++){
-        const date = startOfDay(new Date(year, month, i));
-        const dayEl = document.createElement('div');
-        dayEl.className = 'day';
-        dayEl.textContent = i;
-        dayEl.dataset.date = date.toISOString();
-
-        if(selected.start && selected.end){
-            if(date > selected.start && date < selected.end){
-                dayEl.classList.add('in-range');
-            }
-        }
-        if(sameDay(date, selected.start)) dayEl.classList.add('selected');
-        if(sameDay(date, selected.end)) dayEl.classList.add('selected');
-
-        if(date < today && !sameDay(date,today)){
-            dayEl.classList.add('other');
-            dayEl.style.cursor = 'not-allowed';
-        } else {
-            dayEl.addEventListener('click', ()=> handleDayClick(date, dayEl));
-        }
-
-        daysGrid.appendChild(dayEl);
-    }
-}
-
-function handleDayClick(date){
-    if (selecting === 'in') {
-        selected.start = date;
-        if(selected.end && selected.end < selected.start){
-            selected.end = null;
-        }
-        btnOpenIn.textContent = formatCompactDate(date);
-    } 
-    else if (selecting === 'out') {
-        if(!selected.start || date >= selected.start){
-            selected.end = date;
-            btnOpenOut.textContent = formatCompactDate(date);
-        } else {
-            alert("A data de saída não pode ser anterior à data de entrada.");
-            return;
-        }
-    }
-
-    recalcPrice();
-    renderCalendar();
-
-    if(selected.start && selected.end){
-        closeCalendar();
-    }
-}
-
-/* =======================================================================
-        🔵 NOVA LÓGICA DE CONFIRMAÇÃO – COMPLETA E ATUALIZADA
-======================================================================= */
-document.getElementById('reserveBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    showLoading();
-
-    if (!selected.start || !selected.end) {
-        hideLoading();
-        alert('Selecione as datas de Entrada e Saída antes de prosseguir.');
-        return;
-    }
-
-    const entradaStrLocal = `${selected.start.toISOString().substring(0, 10)}T${selected.timeIn}:00`;
-    const saidaStrLocal = `${selected.end.toISOString().substring(0, 10)}T${selected.timeOut}:00`;
-
-    const entrada = new Date(entradaStrLocal);
-    const saida = new Date(saidaStrLocal);
-
-    if (saida <= entrada) {
-        hideLoading();
-        alert('A data/hora de Saída deve ser posterior à de Entrada.');
-        return;
-    }
-
-    const entradaISO = entrada.toISOString();
-    const saidaISO = saida.toISOString();
-
-    const params = new URLSearchParams();
-    params.append('eventId', window.globalEventId);
-    params.append('localId', window.globalLocalId);
-    params.append('entrada', entradaISO);
-    params.append('saida', saidaISO);
-
-    // 🔵 adicionados agora
-    params.append('total', window.globalTotal.toFixed(2));
-    params.append('dias', window.globalDays);
-
-    const redirectUrl = `confirmacao.html?${params.toString()}`;
-
-    setTimeout(() => {
-        hideLoading();
-        showToast('Reserva confirmada — código #ZUL-12345');
-        console.log('Redirecionando para:', redirectUrl);
-        // window.location.href = redirectUrl;
-    }, 1500);
-});
-
-// --- UI Feedback ---
-const loadingOverlay = document.getElementById('loadingOverlay');
-function showLoading(){
-    loadingOverlay.style.display = 'flex';
-}
-function hideLoading(){
-    loadingOverlay.style.display = 'none';
-}
-
-const toastEl = document.getElementById('toast');
-function showToast(message){
-    toastEl.textContent = message;
-    toastEl.classList.add('show');
-    setTimeout(() => toastEl.classList.remove('show'), 4000);
-}
-
-// --- Inicialização ---
-initializeFromUrl();
-renderCalendar();
 
 </script>
 </body>
