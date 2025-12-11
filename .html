@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout de Estacionamento</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <style>
+
+        /* Paleta Estapar-ish */
+:root {
+  --azul-escuro: #0b1e43;
+  --azul-medio: #113c70;
+  --verde-acao: #2ecc71;
+  --branco: #ffffff;
+  --cinza-claro: #f5f7fa;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background: var(--cinza-claro);
+  padding: 20px;
+  color: var(--azul-escuro);
+}
+
+/* Container geral */
+.checkout-container {
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Cabeçalho */
+.header-info {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.parking-title {
+  font-size: 1.8rem;
+  color: var(--azul-escuro);
+}
+
+.dates p {
+  font-size: 0.95rem;
+}
+
+/* Cards */
+.cards-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* No desktop eles ficam lado a lado */
+@media (min-width: 680px) {
+  .cards-section {
+    flex-direction: row;
+  }
+}
+
+.parking-card {
+  background: var(--branco);
+  padding: 18px;
+  border-radius: 12px;
+  flex: 1;
+  cursor: pointer;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform .2s, border-color .2s, box-shadow .2s;
+}
+
+.parking-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+.parking-card.active {
+  border-color: var(--verde-acao);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.parking-card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.icon {
+  font-size: 1.1rem;
+  margin-left: 5px;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--azul-medio);
+}
+
+/* Resumo */
+.summary {
+  margin: 25px 0 15px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* Botão CTA */
+.cta-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: var(--verde-acao);
+  color: var(--branco);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.cta-btn:hover {
+  background: #27ae60;
+}
+
+    </style>
+
+  <main class="checkout-container">
+
+    <!-- Cabeçalho -->
+    <header class="header-info">
+      <h1 class="parking-title">Allianz Parque</h1>
+      <div class="dates">
+        <p><strong>Entrada:</strong> 13/12/2025 às 09:00</p>
+        <p><strong>Saída:</strong> 14/12/2025 às 02:59</p>
+      </div>
+    </header>
+
+    <!-- Seleção de Vagas -->
+    <section class="cards-section">
+      <div class="parking-card" data-type="Vaga Comum" data-price="45.90">
+        <h2>Vaga Comum</h2>
+        <p class="price">R$ 45,90</p>
+      </div>
+
+      <div class="parking-card" data-type="Vaga PCD" data-price="39.90">
+        <h2>
+          Vaga PCD
+          <span class="icon">♿</span>
+        </h2>
+        <p class="price">R$ 39,90</p>
+      </div>
+    </section>
+
+    <!-- Resumo -->
+    <section class="summary">
+      <p><strong>Subtotal:</strong> <span id="subtotal">R$ 0,00</span></p>
+    </section>
+
+    <button id="btnReservar" class="cta-btn">Reservar Agora</button>
+  </main>
+
+  <script>
+
+// Seleciona elementos
+const cards = document.querySelectorAll(".parking-card");
+const subtotalEl = document.getElementById("subtotal");
+const btnReservar = document.getElementById("btnReservar");
+
+let vagaSelecionada = null;
+let valorSelecionado = 0;
+
+// Evento de clique nos cards
+cards.forEach(card => {
+  card.addEventListener("click", () => {
+    // Remove estado ativo de outros cards
+    cards.forEach(c => c.classList.remove("active"));
+
+    // Ativa o card clicado
+    card.classList.add("active");
+
+    // Atualiza valores
+    vagaSelecionada = card.dataset.type;
+    valorSelecionado = Number(card.dataset.price);
+
+    subtotalEl.textContent = `R$ ${valorSelecionado.toFixed(2).replace(".", ",")}`;
+  });
+});
+
+// Ação do botão
+btnReservar.addEventListener("click", () => {
+  if (!vagaSelecionada) {
+    alert("Por favor, selecione uma vaga antes de continuar.");
+    return;
+  }
+
+  alert(
+    `Reserva confirmada!\n\n` +
+    `Vaga escolhida: ${vagaSelecionada}\n` +
+    `Valor: R$ ${valorSelecionado.toFixed(2).replace(".", ",")}`
+  );
+});
+
+
+  </script>
+</body>
+</html>

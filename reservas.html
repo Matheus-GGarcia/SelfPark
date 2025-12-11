@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscar Local ou Evento</title>
+  <link rel="stylesheet" href="CSS/reservas.css">
+  <link rel="shortcut icon" href="assets/logoAZUL_letraBRANCA.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  
+</head>
+<body>
+  
+  
+
+  <video class="video-fundo" autoplay muted loop>
+  <source src="assets/videoFundo.mp4" type="video/mp4">
+</video>
+
+<div class="video-overlay"></div>
+
+    <div id="loadingScreen">
+    <div class="spinner"></div>
+  </div>
+
+    <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo" class="nav-logo" onclick="window.location.href='index.html'">
+      <nav class="nav-links">
+        <button class="nav-btn" id="reservarBtn"><a href="index.html" style="color:inherit;text-decoration:none;">Inicio</a></button>
+        <button class="nav-btn" id="loginBtn"><a href="login.html" style="color:inherit;text-decoration:none;">Login</a></button>
+        <button class="nav-btn" id="cadastroBtn"><a href="cadastro.html" style="color:inherit;text-decoration:none;">Cadastre-se</a></button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="search-container">
+    <input type="text" placeholder="Buscar Local ou Evento" id="searchInput" />
+    <button onclick="buscar()">
+      <svg viewBox="0 0 24 24">
+        <circle cx="10" cy="10" r="7"></circle>
+        <line x1="15" y1="15" x2="22" y2="22"></line>
+      </svg>
+    </button>
+  </div>
+
+ <section class="icon-grid">
+    <a href="eventos.html">
+      <div class="item" id="hotel">
+        <img src="assets/hoteis-removebg-preview.png" alt="Hotel">
+        <span>Hotel</span>
+      </div>
+    </a>
+    <a href="eventos.html">
+      <div class="item" id="parque">
+        <img src="assets/parque-removebg-preview.png" alt="Parque">
+        <span>Parque</span>
+      </div>
+    </a>
+    <a href="eventos.html">
+      <div class="item" id="shopping">
+        <img src="assets/online-shopping-removebg-preview.png" alt="Shopping">
+        <span>Shopping</span>
+      </div>
+    </a>
+    <a href="eventos.html">
+      <div class="item" id="estadio">
+        <img src="assets/estadio-removebg-preview.png" alt="Estádio">
+        <span>Estádio</span>
+      </div>
+    </a>
+    <a href="eventos.html">
+      <div class="item" id="eventos">
+        <img src="assets/evento-removebg-preview.png" alt="Eventos">
+        <span>Eventos</span>
+      </div>
+    </a>
+  </section>
+  <br>
+  
+  
+
+ <!-- <footer class="footer">
+    <div class="footer-content">
+      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
+      <div class="footer-buttons">
+        <button class="nav-btn" id="footerReservar">Reservar</button>
+        <button class="nav-btn" id="footerLogin">Login</button>
+        <button class="nav-btn" id="footerCadastro">Cadastre-se</button>
+      </div>
+      <p>© 2025 Self Park | Todos os direitos reservados</p>
+    </div>
+  </footer>-->
+
+  
+
+  <script src="JS/reservas.js">
+  </script>
+
+</body>
+</html>
