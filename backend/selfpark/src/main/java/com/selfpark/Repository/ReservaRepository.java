@@ -1,23 +1,28 @@
-package com.selfpark.Repository;
+package com.SelfPark.Repository;
 
+import com.SelfPark.Model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.selfpark.Model.Placa;
-import com.selfpark.Model.Reserva;
-import com.selfpark.Model.Usuario;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
+@Repository
+public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
+    // CORRIGIR: findByUsuarioId (não findByIdUsuario)
+    List<Reserva> findByUsuarioId(Long usuarioId);
 
-public interface ReservaRepository extends JpaRepository<Reserva, Integer>{
+    // CORRIGIR: findByPlaca_NumeroPlaca (se quiser buscar pelo número)
+    // OU findByPlacaId (se quiser buscar pelo ID)
+    List<Reserva> findByPlacaId(Long placaId);
 
-    List<Reserva> findByUsuario(Usuario usuario);  // Se renomeou idUsuario para usuario
-    
-    List<Reserva> findByUsuario_Id(Integer usuarioId);
-    
-    List<Reserva> findByPlaca(Placa placa);  // Se renomeou idPlaca para placa
-    
-    List<Reserva> findByPlaca_Id(Integer placaId);
+    // Se quiser buscar pelo número da placa:
+    @Query("SELECT r FROM Reserva r WHERE r.placa.numeroPlaca = :numeroPlaca")
+    List<Reserva> findByNumeroPlaca(@Param("numeroPlaca") String numeroPlaca);
+
 }
+
+
