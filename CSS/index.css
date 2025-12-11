@@ -7,7 +7,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: whitesmoke;
+
   /*color: #1E3A8A;*/
   scroll-behavior: smooth;
 }
@@ -117,7 +117,8 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover; /* cobre toda a área */
-  z-index: -1; /* fica atrás do conteúdo */
+  z-index: -1;
+  /* fica atrás do conteúdo */
 }
 
 
@@ -380,7 +381,7 @@ iframe {
 /* ========== SEÇÃO DE VÍDEO ========== */
 .video-section {
   padding: 6rem 10%;
-  background-color: whitesmoke;
+  background-color: white;
 }
 
 .video-container {
@@ -412,7 +413,7 @@ iframe {
 .vantagens-section {
   text-align: center;
   padding: 6rem 10%;
-  background-color: #fff;
+  background-color: white;
   margin-top: 20px;
  
 }
@@ -559,26 +560,133 @@ iframe {
 
 
 
-/* esperiri */
+/* ================================================================
+   CARROSSEL COM EFEITO APPLE VISION PRO
+   ================================================================= */
+/* ================================
+   SEÇÃO CARROSSEL HOLOGRÁFICO
+   ================================ */
 .carousel-section {
-    background: #2563eb; /* azul premium */
+    position: relative;
+    background: rgba(255, 255, 255, 0.08); /* vidro holográfico branco */
+    backdrop-filter: blur(40px) saturate(250%);
+    -webkit-backdrop-filter: blur(40px) saturate(250%);
+    background-color: #0f2a6e; /* azul profundo atrás do vidro */
     padding: 70px 20px 90px;
     font-family: "Poppins", sans-serif;
     text-align: center;
     margin-top: 70px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 60px rgba(255, 255, 255, 0.1),
+        0 0 50px rgba(120, 160, 255, 0.25),
+        0 0 90px rgba(80, 130, 255, 0.35);
 }
 
+/* Camadas parallax do carrossel */
+.carousel-layer-back,
+.carousel-layer-mid,
+.carousel-layer-front {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 0;
+}
+
+.carousel-layer-back {
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.06),
+        rgba(255, 255, 255, 0.08)
+    );
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.carousel-layer-mid {
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+    filter: blur(90px);
+    opacity: 0.45;
+    z-index: 0;
+}
+
+.carousel-layer-front {
+    background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.18),
+        rgba(255,255,255,0.28),
+        rgba(255,255,255,0.10)
+    );
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+    z-index: 0;
+}
+
+/* Camada holográfica / conic gradient animada */
+.carousel-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.06),
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.08)
+    );
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    animation: holographicShift 18s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Halo de luz Vision Pro */
+.carousel-section::after {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    width: 150%;
+    height: 250%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.18),
+        rgba(0, 0, 0, 0)
+    );
+    filter: blur(90px);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Conteúdo acima das camadas */
+.carousel-section > *:not(.carousel-layer-back):not(.carousel-layer-mid):not(.carousel-layer-front) {
+    position: relative;
+    z-index: 2;
+}
+
+/* Título do carrossel */
 .carousel-title {
-    color: white;
+    position: relative;
+    color: rgba(255,255,255,0.9);
     font-size: 2.3rem;
     font-weight: 700;
     margin-bottom: 55px;
+    z-index: 2;
 }
 
 /* CARROSSEL */
 .carousel-wrapper {
+    position: relative;
     overflow: hidden;
     width: 100%;
+    z-index: 2;
 }
 
 .carousel-track {
@@ -587,18 +695,23 @@ iframe {
     transition: transform .8s ease;
 }
 
-
+/* CARD */
 .carousel-card {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.08); /* vidro branco */
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
     min-width: 320px;
     max-width: 340px;
     padding: 28px;
     border-radius: 22px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.12);
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.12),
+        0 0 30px rgba(255,255,255,0.15);
     text-align: left;
-   
+    position: relative;
 }
 
+/* Imagem com glow azul */
 .card-img {
     width: 65px;
     height: 65px;
@@ -612,22 +725,16 @@ iframe {
     box-shadow: 0 0 12px rgba(59,130,246,0.4); /* glow azul */
 }
 
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-
-
+/* Texto */
 .card-text {
     font-size: 1rem;
     line-height: 1.7;
-    color: #444;
+    color: #fff;
     margin-bottom: 28px;
     font-style: italic;
 }
 
+/* Informações do cartão */
 .card-info {
     display: flex;
     justify-content: space-between;
@@ -636,7 +743,7 @@ iframe {
 }
 
 .card-info .cidade {
-    color: #777;
+    color: #a0c2ff;
 }
 
 .card-info .nota {
@@ -649,98 +756,214 @@ iframe {
     display: flex;
     justify-content: center;
     gap: 10px;
+    position: relative;
+    z-index: 2;
 }
 
 .carousel-dots div {
     width: 12px;
     height: 12px;
-    background: #ffffff77;
+    background: rgba(8, 1, 112, 0.5);
     border-radius: 50%;
     cursor: pointer;
     transition: .3s;
 }
 
 .carousel-dots .active {
-    background: #fff;
+    background: #000000;
     transform: scale(1.2);
 }
 
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .carousel-section {
+        padding: 50px 15px 70px;
+    }
+}
+
+/* ===============================
+   ANIMAÇÃO GRADIENT MOVEMENT
+   =============================== */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===============================
+   HOLOGRÁFICO SHIFT
+   =============================== */
+@keyframes holographicShift {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 
-
+/* ================================================================
+   FOOTER HOLOGRÁFICO VISION PRO — FUNDO AZUL, VIDRO BRANCO
+   ================================================================= */
 .footer {
-  background-color: #6B7280	;
-  color: white;
-  text-align: center;
-  padding: 2.5rem 1rem;
+  position: relative;
+  background: #2563eb; /* vidro holográfico branco */
+  backdrop-filter: blur(40px) saturate(250%);
+  -webkit-backdrop-filter: blur(40px) saturate(250%);
+  
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+  padding: 3.7rem 2rem;
+  color: rgba(30, 53, 234, 0.85);
+
+  box-shadow:
+    inset 0 0 60px rgba(255, 255, 255, 0.1),
+    0 0 50px rgba(120, 160, 255, 0.25),
+    0 0 90px rgba(80, 130, 255, 0.35);
+
+  overflow: hidden;
+  background-color: #0f2a6e; /* azul profundo atrás do vidro */
 }
 
+/* CAMADA HOLOGRÁFICA — REFRAÇÃO / ARCO-ÍRIS SUAVE */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.08)
+  );
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  animation: holographicShift 18s linear infinite;
+}
+
+@keyframes holographicShift {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* HALO DE LUZ — EFEITO VISION PRO */
+.footer::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  width: 150%;
+  height: 250%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.18),
+    rgba(0, 0, 0, 0)
+  );
+  filter: blur(90px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* CONTEÚDO INTERNO */
 .footer-content {
+  max-width: 1250px;
+  margin: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3.5rem;
 }
 
+/* LOGO */
 .footer-logo {
-  width: 120px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  width: 150px;
+  filter:
+    drop-shadow(0 0 12px rgba(255,255,255,0.45))
+    drop-shadow(0 0 20px rgba(255,255,255,0.25));
+  transition: transform 0.35s ease, filter 0.35s ease;
 }
 
 .footer-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  filter:
+    drop-shadow(0 0 28px rgba(255,255,255,0.75))
+    drop-shadow(0 0 40px rgba(255,255,255,0.55));
 }
 
-.footer-buttons {
+/* MENU VERTICAL */
+.footer-nav {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.footer-nav a {
+  color: rgba(30, 94, 232, 0.82);
+  text-decoration: none;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  transition: color 0.25s, transform 0.3s, opacity 0.25s;
+  opacity: 0.85;
+}
+
+.footer-nav a:hover {
+  color: rgb(160, 210, 255);
+  transform: translateX(8px) translateZ(20px);
+  opacity: 1;
+}
+
+/* INFORMAÇÕES — LINKS UM ABAIXO DO OUTRO */
+.footer-info {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.footer-info-links {
+  display: flex;
+  flex-direction: column; /* links um abaixo do outro */
+  gap: 0.25rem;
+}
+
+.footer-info-links a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.25px;
+  opacity: 0.65;
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.footer-info-links a:hover {
+  color: rgb(160, 210, 255);
+  opacity: 1;
 }
 
 .footer p {
-  color: #d1d5db;
-  font-size: 0.9rem;
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 0.5rem;
 }
 
-/* ========== RESPONSIVIDADE ========== */
-@media (max-width: 900px) {
-  .nav-logo {
-    position: static;
-    transform: none;
-    margin-bottom: 1rem;
-  }
-
-  .nav-container {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .nav-links {
-    position: static;
-    margin-top: 0.5rem;
-  }
-
-  .map-container {
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .footer-content {
     flex-direction: column;
     text-align: center;
+    gap: 2.4rem;
   }
 
-  .map-placeholder {
-    width: 100%;
-  }
-
-  .video-container {
-    flex-direction: column;
-  }
-
-  .cards {
-    flex-direction: column;
+  .footer-info {
+    text-align: center;
     align-items: center;
   }
 
-  .footer-buttons {
-    flex-direction: column;
-    gap: 1rem;
+  .footer-info-links {
+    align-items: center;
   }
 }

@@ -1,6 +1,4 @@
-// Redirecionamentos dos botões
 const links = [
-  ['reservarBtn', 'reservar.html'],
   ['loginBtn', 'login.html'],
   ['cadastroBtn', 'cadastro.html'],
   ['footerReservar', 'reservar.html'],

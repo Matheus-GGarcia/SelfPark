@@ -26,7 +26,7 @@
 
     <!-- Botões à direita -->
     <nav class="nav-links">
-      <button class="nav-btn" id="reservarBtn">Reservar</button>
+      <button class="nav-btn" id="reservarBtn" onclick="window.location.href='reservas.html'">Reservar</button>
       <button class="nav-btn" id="loginBtn">Login</button>
       <button class="nav-btn" id="cadastroBtn">Cadastre-se</button>
     </nav>
@@ -131,96 +131,225 @@
 </section>
 
 <section class="carousel-section">
+
+    <!-- Camadas de parallax / holográfico -->
+    <div class="carousel-layer-back"></div>
+    <div class="carousel-layer-mid"></div>
+    <div class="carousel-layer-front"></div>
+
     <h2 class="carousel-title">Experiências reais com o Self Park</h2>
 
     <div class="carousel-wrapper">
         <div class="carousel-track">
-
             <!-- CARD 1 -->
             <div class="carousel-card">
                 <img src="https://randomuser.me/api/portraits/men/40.jpg" class="card-img">
-                <p class="card-text">
-                    “Reservar minha vaga antecipadamente mudou completamente minha rotina.
-                    Simples, rápido e extremamente confiável.”
-                </p>
+                <p class="card-text">“Reservar minha vaga antecipadamente mudou completamente minha rotina. Simples, rápido e extremamente confiável.”</p>
                 <div class="card-info">
                     <span class="nome">Carlos M.</span>
                     <span class="cidade">São Paulo</span>
                     <span class="nota">10/10 ⭐</span>
                 </div>
             </div>
-
             <!-- CARD 2 -->
             <div class="carousel-card">
                 <img src="https://randomuser.me/api/portraits/women/55.jpg" class="card-img">
-                <p class="card-text">
-                    “Sistema impecável! Agora vou ao shopping sem preocupação.
-                    A reserva automática me economizou muito tempo.”
-                </p>
+                <p class="card-text">“Sistema impecável! Agora vou ao shopping sem preocupação. A reserva automática me economizou muito tempo.”</p>
                 <div class="card-info">
                     <span class="nome">Juliana A.</span>
                     <span class="cidade">Curitiba</span>
                     <span class="nota">10/10 ⭐</span>
                 </div>
             </div>
-
             <!-- CARD 3 -->
             <div class="carousel-card">
                 <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
-                <p class="card-text">
-                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
-                    Nunca mais perdi tempo procurando vaga.”
-                </p>
+                <p class="card-text">“Recomendo demais! Atendimento excelente e tecnologia realmente útil. Nunca mais perdi tempo procurando vaga.”</p>
                 <div class="card-info">
                     <span class="nome">Pedro L.</span>
                     <span class="cidade">Belo Horizonte</span>
                     <span class="nota">10/10 ⭐</span>
                 </div>
             </div>
-            <div class="carousel-card">
+              <div class="carousel-card">
                 <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
-                <p class="card-text">
-                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
-                    Nunca mais perdi tempo procurando vaga.”
-                </p>
+                <p class="card-text">“Recomendo demais! Atendimento excelente e tecnologia realmente útil. Nunca mais perdi tempo procurando vaga.”</p>
                 <div class="card-info">
                     <span class="nome">Pedro L.</span>
                     <span class="cidade">Belo Horizonte</span>
                     <span class="nota">10/10 ⭐</span>
                 </div>
             </div>
-            <div class="carousel-card">
+              <div class="carousel-card">
                 <img src="https://randomuser.me/api/portraits/men/70.jpg" class="card-img">
-                <p class="card-text">
-                    “Recomendo demais! Atendimento excelente e tecnologia realmente útil.
-                    Nunca mais perdi tempo procurando vaga.”
-                </p>
+                <p class="card-text">“Recomendo demais! Atendimento excelente e tecnologia realmente útil. Nunca mais perdi tempo procurando vaga.”</p>
                 <div class="card-info">
                     <span class="nome">Pedro L.</span>
                     <span class="cidade">Belo Horizonte</span>
                     <span class="nota">10/10 ⭐</span>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- Pontos indicadores -->
     <div class="carousel-dots"></div>
 </section>
 
   <!-- FOOTER -->
-   <footer class="footer">
-    <div class="footer-content">
-      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo Self Park" class="footer-logo" id="footerLogo" />
-      <div class="footer-buttons">
-        <button class="nav-btn" id="footerReservar">Reservar</button>
-        <button class="nav-btn" id="footerLogin">Login</button>
-        <button class="nav-btn" id="footerCadastro">Cadastre-se</button>
-      </div>
-      <p>© 2025 Self Park | Todos os direitos reservados</p>
+ <footer class="footer">
+
+  <!-- Camadas do efeito holográfico / parallax -->
+  <div class="layer-back"></div>
+  <div class="layer-mid"></div>
+  <div class="layer-front"></div>
+
+  <div class="footer-content">
+
+    <div class="footer-logo-section">
+      <img src="assets/logoAZUL_letraBRANCA.png" class="footer-logo" alt="Self Park Logo">
     </div>
-  </footer>
+
+    <nav class="footer-nav">
+      <a id="footerReservar">Reservar</a>
+      <a id="footerLogin">Login</a>
+      <a id="footerCadastro">Cadastre-se</a>
+    </nav>
+
+    <div class="footer-info">
+      <div class="footer-info-links">
+        <a href="#">Contato</a>
+        <a href="#">Termos</a>
+        <a href="#">Privacidade</a>
+      </div>
+      <p>© 2025 Self Park — Todos os direitos reservados</p>
+    </div>
+
+  </div>
+
+  <!-- Ondas animadas -->
+  <div class="footer-waves">
+    <div class="wave"></div>
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+</footer>
+
+<script>
+document.addEventListener("mousemove", (e) => {
+  const footer = document.querySelector(".footer");
+
+  const x = (e.clientX / window.innerWidth - 0.5) * 2;
+  const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+  footer.querySelector(".layer-back").style.transform =
+    `translate(${x * 20}px, ${y * 20}px)`;
+
+  footer.querySelector(".layer-mid").style.transform =
+    `translate(${x * 35}px, ${y * 35}px)`;
+
+  footer.querySelector(".layer-front").style.transform =
+    `translate(${x * 60}px, ${y * 60}px)`;
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const track = document.querySelector('.carousel-track');
+    const cards = Array.from(track.children);
+    const dotsContainer = document.querySelector('.carousel-dots');
+    const carouselSection = document.querySelector('.carousel-section');
+    const layerBack = document.querySelector('.carousel-layer-back');
+    const layerMid = document.querySelector('.carousel-layer-mid');
+    const layerFront = document.querySelector('.carousel-layer-front');
+
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    // Cria os dots
+    cards.forEach((_, index) => {
+        const dot = document.createElement('div');
+        if(index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => moveToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = Array.from(dotsContainer.children);
+
+    // Função para mover o carrossel
+    function moveToSlide(index) {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        const cardWidth = cards[0].offsetWidth + 30; // largura + gap
+        const targetX = -cardWidth * index;
+
+        // animação suave usando requestAnimationFrame
+        const startX = parseFloat(track.style.transform.replace('translateX(', '').replace('px)', '')) || 0;
+        const distance = targetX - startX;
+        const duration = 400; // ms
+        const startTime = performance.now();
+
+        function animate(time) {
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = progress < 0.5 ? 2*progress*progress : -1 + (4 - 2*progress)*progress; // easeInOut
+            track.style.transform = `translateX(${startX + distance * ease}px)`;
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                isAnimating = false;
+            }
+        }
+        requestAnimationFrame(animate);
+
+        dots[currentIndex].classList.remove('active');
+        dots[index].classList.add('active');
+        currentIndex = index;
+    }
+
+    // Autoplay
+    setInterval(() => {
+        let nextIndex = (currentIndex + 1) % cards.length;
+        moveToSlide(nextIndex);
+    }, 4500);
+
+    // Swipe no celular
+    let startX = 0;
+    track.addEventListener("touchstart", e => startX = e.touches[0].clientX);
+    track.addEventListener("touchend", e => {
+        const endX = e.changedTouches[0].clientX;
+        if(startX - endX > 50) moveToSlide((currentIndex + 1) % cards.length);
+        else if(endX - startX > 50) moveToSlide((currentIndex - 1 + cards.length) % cards.length);
+    });
+
+    // Parallax das camadas
+    carouselSection.addEventListener('mousemove', (e) => {
+        const { width, height, left, top } = carouselSection.getBoundingClientRect();
+        const x = (e.clientX - left) / width - 0.5; // -0.5 a 0.5
+        const y = (e.clientY - top) / height - 0.5;
+
+        layerBack.style.transform = `translate3d(${x * 10}px, ${y * 10}px, 0)`;
+        layerMid.style.transform = `translate3d(${x * 20}px, ${y * 20}px, 0)`;
+        layerFront.style.transform = `translate3d(${x * 30}px, ${y * 30}px, 0)`;
+
+        // Anima os dots suavemente junto com o mouse
+        dots.forEach((dot, i) => {
+            const offset = (i - currentIndex) * 15; // distância relativa do slide atual
+            dot.style.transform = `translateX(${offset * x}px)`;
+        });
+    });
+
+    // Responsividade: atualiza transform se a tela mudar
+    window.addEventListener('resize', () => moveToSlide(currentIndex));
+});
+</script>
+
+
+
+
+
 
   <script src="JS/index.js">
   </script>
