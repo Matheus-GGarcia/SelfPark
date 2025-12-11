@@ -1,14 +1,13 @@
-package com.selfpark;
+package com.SelfPark;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SelfparkApplication {
+public class BackEndApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SelfparkApplication.class, args);
+		SpringApplication.run(BackEndApplication.class, args);
 	}
 
 }
-

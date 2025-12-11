@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>selfpark</artifactId>
+	<artifactId>SelfPark</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>selfpark</name>
+	<name>BackEnd</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -65,8 +65,7 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	
- </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

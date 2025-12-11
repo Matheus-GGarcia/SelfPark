@@ -1,10 +1,10 @@
-package com.selfpark;
+package com.SelfPark;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SelfparkApplicationTests {
+class BackEndApplicationTests {
 
 	@Test
 	void contextLoads() {

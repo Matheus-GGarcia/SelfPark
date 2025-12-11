@@ -1,15 +1,8 @@
-package com.selfpark.Model;
+package com.SelfPark.Model;
 
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_reserva")
@@ -17,51 +10,44 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "data_entrada")
-    private LocalDateTime entradaData;
-
-    @Column(name = "data_saida")
-    private LocalDateTime saidaData;
-
-    @Column(name = "status_pagamento")
-    private String status_pagamento;
+    private LocalDateTime dataHoraInicio;
+    private LocalDateTime dataHoraFim;
+    private String status; // PENDENTE, CONFIRMADA, CANCELADA
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;  // Mude de idUsuario para usuario
+    @JoinColumn(name = "usuario_id")
+    @JsonIgnore
+    private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_placa")
-    private Placa placa;  // Mude de idPlaca para placa
+    @JoinColumn(name = "placa_id")
+    private Placa placa;
 
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Integer getId(){
-        return id;
+    public LocalDateTime getDataHoraInicio() { return dataHoraInicio; }
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
     }
-    public LocalDateTime getDataEntrada(){
-        return entradaData;
-    }
-    public LocalDateTime getDataSaida(){
-        return saidaData;
-    }
-    public String getPagamento(){
-        return status_pagamento;
-    } 
 
-    public void setId(Integer id) {
-        this.id = id;
+    public LocalDateTime getDataHoraFim() { return dataHoraFim; }
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
+        this.dataHoraFim = dataHoraFim;
     }
-    public void setDataEntrada(LocalDateTime data){
-        this.entradaData = data;
-    }
-    public void setDataSaida(LocalDateTime data){
-        this.saidaData = data;
-    }
-    public void setPagamento(String paga){
-        this.status_pagamento = paga;
-    } 
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+
+    public Placa getPlaca() { return placa; }
+    public void setPlaca(Placa placa) { this.placa = placa; }
 }
+
+
 
 
