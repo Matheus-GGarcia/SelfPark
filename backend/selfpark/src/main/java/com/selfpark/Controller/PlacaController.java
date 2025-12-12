@@ -1,7 +1,7 @@
 package com.SelfPark.Controller;
 
 import com.SelfPark.Model.Placa;
-import com.SelfPark.Services.PlacaService;
+import com.SelfPark.Services.PlacaServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 public class PlacaController {
 
     @Autowired
-    private PlacaService placaService;
+    private PlacaServices placaService;
 
     @PostMapping("/criar")
     public ResponseEntity<?> criarPlaca(@RequestBody Placa placa) {
