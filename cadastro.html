@@ -14,7 +14,6 @@
     <div class="nav-container">
       <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo" class="nav-logo" onclick="window.location.href='index.html'">
       <div class="nav-links">
-        <button class="nav-btn"onclick="window.location.href='login.html'">Login</button>
       </div>
     </div>
   </nav>
@@ -25,29 +24,30 @@
       <h1>Criar uma conta</h1>
       <p>É rápido e fácil. Complete as informações abaixo.</p>
 
-      <form class="login-form">
+      <form class="login-form" id="formulario">
         <div>
           <label for="nome">Nome</label>
-          <input type="text" id="nome" placeholder="Digite seu nome" required />
+          <input name="nome" type="text" id="nome" placeholder="Digite seu nome" required />
         </div>
 
         <div>
           <label for="email">E-mail</label>
-          <input type="email" id="email" placeholder="Digite seu e-mail" required />
+          <input name="email" type="email" id="email" placeholder="Digite seu e-mail" required />
         </div>
 
         <div>
           <label for="senha">Senha</label>
-          <input type="password" id="senha" placeholder="Crie uma senha" required />
+          <input name="senha" type="password" id="senha" placeholder="Crie uma senha" required />
         </div>
 
         <div>
           <label for="placa">Placa</label>
-          <input type="text" id="placa" placeholder="Digite a placa do veiculo" required />
+          <input name="placa" type="text" id="placa" placeholder="Digite a placa do veiculo" required />
         </div>
 
-        <button class="login-btn">Registrar</button>
+        <button class="login-btn" type="submit">Registrar</button>
       </form>
+      
 
       <p class="register-text">Já tem conta? <a href="login.html">Faça login</a></p>
     </div>
@@ -57,5 +57,6 @@
 
 
 
+<script src="/JS/cadastro.js"></script>
 </body>
 </html>
