@@ -187,3 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+localStorage.setItem('reserva_entrada', params.entrada);
+localStorage.setItem('reserva_saida', params.saida);
+localStorage.setItem('reserva_total', total);

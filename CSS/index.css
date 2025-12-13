@@ -300,6 +300,8 @@ iframe {
 }
 
 .mapa-text h1 {
+   top: 0;
+  left: 0;
   font-size: 3.5rem;
   font-weight: 880;
   line-height: 1.28;
@@ -307,12 +309,9 @@ iframe {
   letter-spacing: -1.2px;
   font-family: 'Poppins', sans-serif;
   text-align: left;
-
   position: absolute;
-
   white-space: normal;   /* permite quebra natural */
   word-wrap: break-word; /* evita cortar palavras */
-
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.9s ease, transform 0.9s ease;

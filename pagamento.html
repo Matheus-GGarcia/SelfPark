@@ -1,47 +1,59 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout Premium</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="CSS/pagamento.css" />
-
+    <link rel="stylesheet" href="CSS/pagamento.css" />
 </head>
+
 <body>
 
 <div class="container">
+
+    <!-- ================= SIDEBAR ================= -->
     <div class="sidebar">
+
         <div>
-            <div class="back-btn"><i class="fas fa-arrow-left"></i> Voltar</div>
+            <div class="back-btn">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </div>
         </div>
+
+        <!-- ===== RESUMO DO PEDIDO (DINÂMICO) ===== -->
         <div class="order-summary">
             <h3>Resumo do Pedido</h3>
-            <div class="order-item">
-                <span>Plano Premium Anual</span>
-                <span>R$ 299,00</span>
-            </div>
-            <div class="order-item">
-                <span>Taxas</span>
-                <span>R$ 0,00</span>
-            </div>
+
+           <div class="order-item">
+    <span id="eventoNome">Evento</span>
+    <span id="eventoTempo">--</span>
+</div>
+
             <div class="order-item" style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; margin-top: 15px;">
                 <span>Total</span>
-                <span style="font-weight: 600">R$ 299,00</span>
+                <span id="eventoTotal" style="font-weight: 600">R$ --,--</span>
             </div>
+
             <div class="total-price">
-                <small style="font-size: 0.9rem; font-weight: 400; opacity: 0.8; display: block; margin-bottom: 5px;">A pagar agora:</small>
-                R$ 299,00
+                <small style="font-size: 0.9rem; font-weight: 400; opacity: 0.8; display: block; margin-bottom: 5px;">
+                    A pagar agora:
+                </small>
+                <span id="eventoTotalBig">R$ --,--</span>
             </div>
         </div>
+
         <div style="font-size: 0.8rem; opacity: 0.6; margin-top: auto;">
             <i class="fas fa-lock"></i> Pagamento 100% seguro com criptografia SSL.
         </div>
+
     </div>
 
+    <!-- ================= CONTEÚDO PAGAMENTO ================= -->
     <div class="payment-content">
+
         <h2 class="title">Método de Pagamento</h2>
 
         <div class="payment-methods">
@@ -56,16 +68,22 @@
             </div>
         </div>
 
+        <!-- ================= CARTÃO ================= -->
         <div id="card-form" class="tab-content active">
-            
+
             <div class="card-preview-container">
                 <div class="credit-card" id="visual-card">
+
                     <div class="card-front">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
                             <div class="chip"></div>
-                            <i id="card-icon-front" class="fas fa-credit-card" style="font-size: 2.5rem; transition: 0.3s;"></i>
+                            <i id="card-icon-front" class="fas fa-credit-card" style="font-size: 2.5rem;"></i>
                         </div>
-                        <div class="card-number-display" id="card-number-display">#### #### #### ####</div>
+
+                        <div class="card-number-display" id="card-number-display">
+                            #### #### #### ####
+                        </div>
+
                         <div class="card-details-display">
                             <div>
                                 <span>Titular</span>
@@ -77,25 +95,30 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card-back">
                         <div class="strip"></div>
                         <div class="cvv-display" id="card-cvv-display">***</div>
-                        <div style="text-align: right; padding: 0 20px; margin-top: 10px;">
-                            <i id="card-icon-back" class="fas fa-credit-card" style="font-size: 2rem; opacity: 0.7; transition: 0.3s;"></i>
+                        <div style="text-align:right; padding:0 20px; margin-top:10px;">
+                            <i id="card-icon-back" class="fas fa-credit-card" style="font-size:2rem; opacity:.7;"></i>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <form>
+
                 <div class="form-group">
                     <label>Número do Cartão</label>
-   s                 <input type="text" class="form-control" id="input-number" placeholder="0000 0000 0000 0000" maxlength="19">
+                    <input type="text" class="form-control" id="input-number" placeholder="0000 0000 0000 0000" maxlength="19">
                 </div>
+
                 <div class="form-group">
                     <label>Nome do Titular</label>
                     <input type="text" class="form-control" id="input-holder" placeholder="Como impresso no cartão" maxlength="25">
                 </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label>Validade</label>
@@ -106,41 +129,100 @@
                         <input type="text" class="form-control" id="input-cvv" placeholder="123" maxlength="3">
                     </div>
                 </div>
-                <button type="button" class="btn-confirm">Pagar R$ 299,00</button>
+
+                <button type="button" class="btn-confirm" id="btnPagar">
+                    Pagar R$ --,--
+                </button>
+
             </form>
         </div>
 
+        <!-- ================= PIX ================= -->
         <div id="pix-content" class="tab-content">
+
             <div class="pix-container">
-                <p style="margin-bottom: 20px; color: var(--text-light); font-size: 0.95rem;">Abra o app do seu banco e escaneie o QR Code.</p>
-                
-                [attachment_0](attachment)
+
+                <p style="margin-bottom:20px; font-size:.95rem;">
+                    Abra o app do seu banco e escaneie o QR Code.
+                </p>
+
                 <div class="qr-placeholder">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=PagamentoPixExemploIntegrado" alt="QR Code Pix">
                 </div>
 
-                <div class="pix-timer"><i class="far fa-clock"></i> Expira em 14:59</div>
-                
-                <div style="margin-bottom: 20px; text-align: left;">
-                    <label style="font-size: 0.8rem; color: var(--text-light);">Pix Copia e Cola</label>
-                    <div style="background: #f1f2f6; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #636e72; border: 1px solid #dfe6e9;">
+                <div class="pix-timer">
+                    <i class="far fa-clock"></i> Expira em 14:59
+                </div>
+
+                <div style="margin-bottom:20px; text-align:left;">
+                    <label style="font-size:.8rem;">Pix Copia e Cola</label>
+                    <div style="background:#f1f2f6; padding:12px; border-radius:8px; font-family:monospace; font-size:.85rem;">
                         00020126580014br.gov.bcb.pix0136123e4567-e89b-12d3-a456-426614174000
                     </div>
                 </div>
 
-                <button class="copy-btn" onclick="copyPix()" style="width: 100%; justify-content: center;">
+                <button class="copy-btn" onclick="copyPix()">
                     <i class="far fa-copy"></i> Copiar Código Pix
                 </button>
-                <button type="button" class="btn-confirm" style="margin-top: 15px; background: transparent; border: 2px solid var(--primary); color: var(--primary); box-shadow: none;">Já realizei o pagamento</button>
+
+                <button type="button" class="btn-confirm" style="margin-top:15px; background:transparent; border:2px solid var(--primary); color:var(--primary);">
+                    Já realizei o pagamento
+                </button>
+
             </div>
         </div>
 
     </div>
-    
+
 </div>
 
-<script src="JS/pagamento.js"> </script>
+<!-- ================= MODAL CONFIRMAÇÃO ================= -->
+<div class="modal-overlay" id="modalConfirmacao">
+  <div class="modal-box">
+
+    
+
+
+    <button class="modal-close" onclick="fecharModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="modal-content">
+      <i class="fas fa-check-circle modal-icon"></i>
+      <button id="fecharModal" class="modal-close">&times;</button>
+      <h2>Reserva Confirmada</h2>
+      <p>Seu pagamento foi processado com sucesso.</p>
+
+      <div class="modal-qr">
+        <img
+          id="qrReserva"
+          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=ReservaConfirmada"
+          alt="QR Code da Reserva"
+        />
+      </div>
+
+      <span class="modal-info">
+        Apresente este QR Code no local para validação da sua reserva.
+      </span>
+    </div>
+
+    <div class="modal-footer">
+      <a
+        href="#"
+        class="btn-download"
+        id="btnDownloadPDF"
+        download="reserva-qrcode.pdf"
+      >
+        <i class="fas fa-file-pdf"></i>
+        Baixar QR Code (PDF)
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="JS/pagamento.js"></script>
 
 </body>
 </html>
-
