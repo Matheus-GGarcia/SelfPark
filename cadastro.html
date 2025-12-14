@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registro</title>
   <link rel="stylesheet" href="CSS/cadastro.css" />
- <link rel="shortcut icon" href="assets/logoAZUL_letraBRANCA.png">
+  <link rel="shortcut icon" href="assets/logoAZUL_letraBRANCA.png">
 
 </head>
+
 <body>
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-container">
-      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo" class="nav-logo" onclick="window.location.href='index.html'">
+      <img src="assets/logoAZUL_letraBRANCA.png" alt="Logo" class="nav-logo"
+        onclick="window.location.href='index.html'">
       <div class="nav-links">
       </div>
     </div>
@@ -41,22 +44,42 @@
         </div>
 
         <div>
-          <label for="placa">Placa</label>
-          <input name="placa" type="text" id="placa" placeholder="Digite a placa do veiculo" required />
+            <label for="placa">Placa</label>
+            <input name="placa" type="text" id="placa" placeholder="Digite a placa" required />
         </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="Marca">Marca</label>
+            <input readonly name="Marca" type="text" id="marca" placeholder="Modelo do veículo" class="modelo-cor-desativado" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modelo">Modelo</label>
+            <input readonly name="Modelo" type="text" id="modelo" placeholder="Cor do veículo" value="CROSSFOX" class="modelo-cor-desativado" required />
+          </div>
+
+          <div class="form-group">
+            <label for="modelo">Cor</label>
+            <input readonly name="cor" type="text" id="cor" placeholder="Cor do veículo" class="modelo-cor-desativado" required />
+          </div>
+        </div>
+
 
         <button class="login-btn" type="submit">Registrar</button>
       </form>
-      
+
 
       <p class="register-text">Já tem conta? <a href="login.html">Faça login</a></p>
     </div>
-    
+
   </section>
-  
 
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/JS/cadastro.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/JS/cadastro.js"></script>
+  <script src="/JS/API_KEY.js"></script>
 </body>
+
 </html>
