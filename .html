@@ -3,213 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout de Estacionamento</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <title>Como utilizar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #0a2540;
+      --muted: #5f6f86;
+      --primary: #113b97;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #eaf1ff, var(--bg));
+      color: var(--text);
+    }
+
+    section.como-utilizar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .header h2 {
+      font-size: 2.6rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .header p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 700px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .card {
+      position: relative;
+      background: linear-gradient(160deg, rgba(4, 40, 117, 0.35), rgba(8, 51, 170, 0.35));
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border-radius: 20px;
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+    
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(9, 36, 94, 0.35);
+      border-color: rgba(147,197,253,0.9);
+    }
+
+    .illustration {
+      width: 100%;
+      height: 180px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: #ffffff;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .card p {
+      font-size: .95rem;
+      color: #dbeafe;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+      .header h2 {
+        font-size: 2rem;
+      }
+    }
+    .step {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 1px;
+    }
+
+</style>
+</head>
 <body>
 
-    <style>
+<section class="como-utilizar">
+  <div class="header">
+    <h2>Como utilizar</h2>
+    <p>Todas as informações necessárias para a utilização estarão disponíveis no seu e-mail, no site e também no aplicativo.</p>
+  </div>
 
-        /* Paleta Estapar-ish */
-:root {
-  --azul-escuro: #0b1e43;
-  --azul-medio: #113c70;
-  --verde-acao: #2ecc71;
-  --branco: #ffffff;
-  --cinza-claro: #f5f7fa;
-}
+  <div class="cards">
+    <div class="card">
+      <span class="step">01</span>
+      <div class="illustration">🚗</div>
+      <h3>Dirija-se ao estacionamento</h3>
+      <p>Vá até o estacionamento selecionado e, caso exista uma entrada específica para reservas, utilize-a corretamente.</p>
+    </div>
 
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    <div class="card">
+      <span class="step">02</span>
+      <div class="illustration">📱</div>
+      <h3>Apresente o QR Code</h3>
+      <p>Aproxime o QR Code da sua reserva no leitor da cancela. Não é necessário retirar o tíquete físico do estacionamento.</p>
+    </div>
 
-body {
-  font-family: "Inter", Arial, sans-serif;
-  background: var(--cinza-claro);
-  padding: 20px;
-  color: var(--azul-escuro);
-}
+    <div class="card">
+      <span class="step">03</span>
+      <div class="illustration">🅿️</div>
+      <h3>Estacione seu veículo</h3>
+      <p>Após a liberação da entrada, escolha qualquer vaga disponível e estacione. As vagas não são previamente demarcadas.</p>
+    </div>
+  </div>
+</section>
 
-/* Container geral */
-.checkout-container {
-  max-width: 600px;
-  margin: auto;
-}
+<script>
+  // JS preparado para futuras interações (animações, tracking, etc.)
+  console.log('Seção Como Utilizar carregada com sucesso');
+</script>
 
-/* Cabeçalho */
-.header-info {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.parking-title {
-  font-size: 1.8rem;
-  color: var(--azul-escuro);
-}
-
-.dates p {
-  font-size: 0.95rem;
-}
-
-/* Cards */
-.cards-section {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-/* No desktop eles ficam lado a lado */
-@media (min-width: 680px) {
-  .cards-section {
-    flex-direction: row;
-  }
-}
-
-.parking-card {
-  background: var(--branco);
-  padding: 18px;
-  border-radius: 12px;
-  flex: 1;
-  cursor: pointer;
-  border: 2px solid transparent;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform .2s, border-color .2s, box-shadow .2s;
-}
-
-.parking-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-}
-
-.parking-card.active {
-  border-color: var(--verde-acao);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-}
-
-.parking-card h2 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-
-.icon {
-  font-size: 1.1rem;
-  margin-left: 5px;
-}
-
-.price {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: var(--azul-medio);
-}
-
-/* Resumo */
-.summary {
-  margin: 25px 0 15px;
-  text-align: center;
-  font-size: 1.1rem;
-}
-
-/* Botão CTA */
-.cta-btn {
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 10px;
-  background: var(--verde-acao);
-  color: var(--branco);
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background .2s;
-}
-
-.cta-btn:hover {
-  background: #27ae60;
-}
-
-    </style>
-
-  <main class="checkout-container">
-
-    <!-- Cabeçalho -->
-    <header class="header-info">
-      <h1 class="parking-title">Allianz Parque</h1>
-      <div class="dates">
-        <p><strong>Entrada:</strong> 13/12/2025 às 09:00</p>
-        <p><strong>Saída:</strong> 14/12/2025 às 02:59</p>
-      </div>
-    </header>
-
-    <!-- Seleção de Vagas -->
-    <section class="cards-section">
-      <div class="parking-card" data-type="Vaga Comum" data-price="45.90">
-        <h2>Vaga Comum</h2>
-        <p class="price">R$ 45,90</p>
-      </div>
-
-      <div class="parking-card" data-type="Vaga PCD" data-price="39.90">
-        <h2>
-          Vaga PCD
-          <span class="icon">♿</span>
-        </h2>
-        <p class="price">R$ 39,90</p>
-      </div>
-    </section>
-
-    <!-- Resumo -->
-    <section class="summary">
-      <p><strong>Subtotal:</strong> <span id="subtotal">R$ 0,00</span></p>
-    </section>
-
-    <button id="btnReservar" class="cta-btn">Reservar Agora</button>
-  </main>
-
-  <script>
-
-// Seleciona elementos
-const cards = document.querySelectorAll(".parking-card");
-const subtotalEl = document.getElementById("subtotal");
-const btnReservar = document.getElementById("btnReservar");
-
-let vagaSelecionada = null;
-let valorSelecionado = 0;
-
-// Evento de clique nos cards
-cards.forEach(card => {
-  card.addEventListener("click", () => {
-    // Remove estado ativo de outros cards
-    cards.forEach(c => c.classList.remove("active"));
-
-    // Ativa o card clicado
-    card.classList.add("active");
-
-    // Atualiza valores
-    vagaSelecionada = card.dataset.type;
-    valorSelecionado = Number(card.dataset.price);
-
-    subtotalEl.textContent = `R$ ${valorSelecionado.toFixed(2).replace(".", ",")}`;
-  });
-});
-
-// Ação do botão
-btnReservar.addEventListener("click", () => {
-  if (!vagaSelecionada) {
-    alert("Por favor, selecione uma vaga antes de continuar.");
-    return;
-  }
-
-  alert(
-    `Reserva confirmada!\n\n` +
-    `Vaga escolhida: ${vagaSelecionada}\n` +
-    `Valor: R$ ${valorSelecionado.toFixed(2).replace(".", ",")}`
-  );
-});
-
-
-  </script>
 </body>
 </html>

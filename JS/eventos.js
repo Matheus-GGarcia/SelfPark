@@ -157,3 +157,48 @@ document.addEventListener("DOMContentLoaded", () => {
     // -------------------------------
     applyFilters();
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const cityFilter = document.getElementById("cidade");
+  const typeFilter = document.getElementById("tipo");
+  const dateFilter = document.getElementById("data");
+  const cardsContainer = document.querySelector(".real-events");
+
+  if (!cardsContainer) return;
+
+  const cards = cardsContainer.querySelectorAll(".card");
+
+  function filterCards() {
+    const city = cityFilter?.value || "";
+    const tipo = typeFilter?.value || "";
+    const data = dateFilter?.value || "";
+
+    cards.forEach(card => {
+      let show = true;
+
+      const eventCity = card.dataset.city;
+      const eventType = card.dataset.type;
+      const start = card.dataset.start || null;
+      const end = card.dataset.end || null;
+
+      if (city && city !== eventCity) show = false;
+      if (tipo && tipo !== eventType) show = false;
+
+      if (data) {
+        if (start && end) {
+          if (data < start || data > end) show = false;
+        } else if (start && !end) {
+          if (data < start) show = false;
+        }
+      }
+
+      card.style.display = show ? "block" : "none";
+    });
+  }
+
+  cityFilter?.addEventListener("change", filterCards);
+  typeFilter?.addEventListener("change", filterCards);
+  dateFilter?.addEventListener("change", filterCards);
+});
