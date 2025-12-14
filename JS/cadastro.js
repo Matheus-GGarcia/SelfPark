@@ -1,31 +1,32 @@
-const btnSubmit = document.querySelector('input[type="submit"]');
+const form = document.getElementById("formulario");
 
-        const url = "http://localhost:8080/usuarios/criar";
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-        const form = document.getElementById('formulario');
+    const dados = {
+        nome: document.getElementById("nome").value,
+        email: document.getElementById("email").value,
+        senha: document.getElementById("senha").value,
+        placa: document.getElementById("placa").value
+    };
 
+    console.log("Enviando:", dados);
 
-        // enviando dados para a API usando FormData e Fetch
+    try {
+        const response = await axios.post(
+            "http://localhost:8080/usuarios/criar",
+            dados,
+            { headers: { "Content-Type": "application/json" } }
+        );
 
-        form.addEventListener('submit', async function (event) {
-            event.preventDefault();
+        console.log("Resposta:", response.data);
+        alert("Cadastro realizado com sucesso!");
 
-            const formData = new FormData(form);
+        // 🔁 REDIRECIONAMENTO
+        window.location.href = "login.html";
 
-            // FormData é uma interface que permite a construção de um conjunto de pares chave/valor representando  os campos e seus valores.  Ele fornece um modo fácil de construir um conjunto de pares chave/valor que podem ser enviados usando a função fetch().
-
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(Object.fromEntries(formData))
-            });
-
-            if (response.ok) {
-                alert('Registro inserido com sucesso!');
-                console.log(response);
-            } else {
-                alert('Erro ao inserir registro!');
-            }
-        });
+    } catch (error) {
+        console.error("Erro:", error.response?.data || error.message);
+        alert("Erro ao cadastrar usuário!");
+    }
+});
