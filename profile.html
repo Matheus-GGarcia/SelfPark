@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/CSS/profile.css">
   
 </head>
-<body>
+<body onload="buscarVeiculoPorPlaca()">
 
   <nav class="navbar">
     <div class="nav-container">
@@ -51,6 +51,23 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="Marca">Marca</label>
+            <input type="text" id="marca" name="marca" placeholder="" style="text-transform: uppercase;">
+          </div>
+
+          <div class="form-group">
+            <label for="Modelo">Modelo</label>
+            <input type="text" id="modelo" name="modelo" placeholder="" style="text-transform: uppercase;">
+          </div>
+
+          <div class="form-group">
+            <label for="Cor">Cor</label>
+            <input type="text" id="cor" name="cor" placeholder="" style="text-transform: uppercase;">
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="senha">Nova Senha</label>
           <input type="password" id="senha" name="senha" placeholder="Deixe em branco para manter">
@@ -68,5 +85,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/JS/profile.js"></script>
+<script src="/JS/API_KEY.js"></script>
 </body>
 </html>
