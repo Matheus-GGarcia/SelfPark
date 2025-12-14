@@ -7,7 +7,8 @@ const links = [
   ['cadastroBtn', 'cadastro.html'],
   ['footerReservar', 'reservar.html'],
   ['footerLogin', 'login.html'],
-  ['footerCadastro', 'cadastro.html']
+  ['footerCadastro', 'cadastro.html'],
+  ['profileBtn', 'profile.html']
 ];
 
 links.forEach(([id, page]) => {

@@ -1,0 +1,200 @@
+    /* --- CSS Baseado no estilo da tela de Login --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        width: 100%;
+        /* Usando um fundo similar escuro/imagem de estacionamento com overlay */
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=1920&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 20px 40px;
+        display: flex;
+        justify-content: center;
+        /* Logo centralizada como no print */
+        align-items: center;
+    }
+
+    .nav-logo {
+        height: 40px;
+        /* Ajuste conforme seu logo original */
+        cursor: pointer;
+    }
+
+    /* Container Principal */
+    .profile-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Card Branco */
+    .profile-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        /* Bordas arredondadas conforme o login */
+        width: 100%;
+        max-width: 500px;
+        /* Um pouco mais largo que login para caber dados */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        position: relative;
+    }
+
+    /* Cabeçalho do Perfil */
+    .profile-header h1 {
+        color: #1e3c72;
+        /* Azul escuro baseado no botão */
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .profile-header p {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+
+    /* Avatar do Usuário */
+    .avatar-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 25px auto;
+    }
+
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #1e3c72;
+    }
+
+    .edit-avatar-btn {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: #1e3c72;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        transition: transform 0.2s;
+    }
+
+    .edit-avatar-btn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Formulário */
+    .profile-form {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #1e3c72;
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        /* Arredondado suave */
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.3s;
+        color: #333;
+    }
+
+    .form-group input:focus {
+        border-color: #1e3c72;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 15px;
+    }
+
+    .form-row .form-group {
+        flex: 1;
+    }
+
+    /* Botões */
+    .btn-save {
+        width: 100%;
+        padding: 12px;
+        background-color: #1e3c72;
+        /* Mesmo azul do login */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background 0.3s;
+    }
+
+    .btn-save:hover {
+        background-color: #152a52;
+    }
+
+    .btn-logout {
+        margin-top: 15px;
+        background: none;
+        border: none;
+        color: #dc3545;
+        /* Vermelho para sair */
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-logout:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsivo */
+    @media (max-width: 480px) {
+        .profile-container {
+            padding: 30px 20px;
+        }
+
+        .form-row {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }

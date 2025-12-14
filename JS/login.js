@@ -7,27 +7,29 @@ form.addEventListener("submit", async (event) => {
     const formData = new FormData(form);
     const loginData = Object.fromEntries(formData);
 
-    console.log("Enviando JSON:", loginData); // DEBUG
+    console.log("Enviando JSON:", loginData);
 
     try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(loginData)
+        const response = await axios.post(url, loginData, {
+            headers: { "Content-Type": "application/json" }
         });
 
-        if (!response.ok) {
-            alert("Erro: " + await response.text());
-            return;
-        }
+        const usuario = response.data;
 
-        const usuario = await response.json();
         localStorage.setItem("usuario", JSON.stringify(usuario));
         alert("Login realizado com sucesso!");
-        window.location.href = "index.html";
+        window.location.href = "profile.html";
 
-    } catch (e) {
-        alert("Erro ao conectar com o servidor.");
-        console.error(e);
+    } catch (error) {
+
+        if (error.response) {
+            // Erro vindo do backend (401, 400, etc)
+            alert("Erro: " + error.response.data);
+        } else {
+            // Erro de conexão
+            alert("Erro ao conectar com o servidor.");
+        }
+
+        console.error(error);
     }
 });
