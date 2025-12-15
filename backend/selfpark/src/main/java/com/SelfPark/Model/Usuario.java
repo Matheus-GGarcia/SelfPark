@@ -20,13 +20,7 @@ public class Usuario {
     private String senha; // Considere usar hash na prática
     private String placa;
 
-    // Relacionamento com Placa (um usuário pode ter várias placas)
-    @OneToMany(mappedBy = "usuario")
-    private List<Placa> placas;
 
-    // Relacionamento com Reserva (um usuário pode ter várias reservas)
-    @OneToMany(mappedBy = "usuario")
-    private List<Reserva> reservas;
 
     // Construtores
     public Usuario() {}
@@ -50,8 +44,8 @@ public class Usuario {
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
 
-    public List<Reserva> getReservas() { return reservas; }
-    public void setReservas(List<Reserva> reservas) { this.reservas = reservas; }
+
+
 
     public String getPlaca() {
         return placa;
@@ -61,11 +55,5 @@ public class Usuario {
         this.placa = placa;
     }
 
-    public List<Placa> getPlacas() {
-        return placas;
-    }
 
-    public void setPlacas(List<Placa> placas) {
-        this.placas = placas;
-    }
 }
