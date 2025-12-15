@@ -1,12 +1,12 @@
 :root {
-    --primary: #6c5ce7;
-    --primary-dark: #5649c0;
-    --secondary: #00cec9;
+    --primary: #041a53;
+    --primary-dark: #0b2877;
+    --secondary: #001bce;
     --background: #dfe6e9;
     --surface: #ffffff;
     --text-dark: #2d3436;
     --text-light: #636e72;
-    --gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    --gradient: linear-gradient(135deg, #291a9e 0%, #070436 100%);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -50,7 +50,7 @@ body {
 
 /* ================= SIDEBAR ================= */
 .sidebar {
-    background: linear-gradient(135deg, #6c5ce7, #8e44ad);
+    background: linear-gradient(135deg, #13067a, #3d26d2);
     color: white;
     padding: 40px;
     width: 100%;
@@ -484,3 +484,73 @@ body {
 }
 
 
+.navbar {
+background: linear-gradient(145deg, rgba(30,58,138,0.9), rgba(37,99,235,0.65));
+  backdrop-filter: blur(14px);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  height: 65px;
+  padding-top: 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.nav-logo {
+   width: 85px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+}
+
+.nav-logo:hover {
+
+  color: #cbd5e1;
+  text-shadow: 0 0 4px rgba(255,255,255,0.3);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  position: absolute;
+  right: 2rem;
+  margin-top: 20px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.05rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  
+}
+
+.nav-btn:hover {
+  color: #9CA3AF;
+}
+
+
+/* Espaçamento do conteúdo para não ficar escondido atrás da navbar */
+body {
+  padding-top: 90px;
+}
